@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dom Jajá - Pizzaria & Choperia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8b2618; 
+            --secondary-color: #f1c40f; 
+            --accent-color: #27ae60; 
+            --bg-dark: #0a0a0a;
+            --card-bg: rgba(26, 26, 26, 0.6);
+            --text-light: #f4e9d5; 
+            --text-muted: #a0a0a0;
+            --border-radius: 20px;
+            --status-open: #2ecc71;
+            --status-closed: #e74c3c;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.6; padding-bottom: 120px; }
+
+        /* HEADER */
+        .header-container { position: relative; height: 350px; overflow: hidden; }
+        .cover-photo {
+            width: 100%; height: 250px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1), var(--bg-dark)), 
+                        url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover; background-position: center;
+            animation: slowZoom 20s infinite alternate;
+        }
+        @keyframes slowZoom { from { transform: scale(1); } to { transform: scale(1.15); } }
+
+        .profile-area { position: absolute; bottom: 15px; left: 20px; display: flex; align-items: flex-end; gap: 20px; width: calc(100% - 40px); z-index: 10; }
+        .profile-photo {
+            width: 120px; height: 120px; border-radius: 30px; border: 4px solid var(--bg-dark);
+            background: url('https://i.imgur.com/Z0xzbAm.jpg') center/cover;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+        .shop-info h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -1.5px; color: #fff; }
+        .shop-info .description { color: var(--secondary-color); font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; }
+
+        .status-badge { 
+            display: inline-flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; 
+            padding: 8px 16px; background: rgba(0,0,0,0.7); border-radius: 50px; margin-top: 10px;
+            backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
+        }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot.open { background: var(--status-open); box-shadow: 0 0 15px var(--status-open); animation: pulse 2s infinite; }
+        .dot.closed { background: var(--status-closed); }
+
+        /* NAV */
+        .categories {
+            display: flex; overflow-x: auto; padding: 20px; gap: 15px; position: sticky; top: 0;
+            background: rgba(10, 10, 10, 0.85); backdrop-filter: blur(20px); z-index: 100; scrollbar-width: none;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .categories::-webkit-scrollbar { display: none; }
+        .category-pill {
+            background: rgba(255,255,255,0.05); padding: 12px 25px; border-radius: 18px; white-space: nowrap;
+            color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 700; transition: var(--transition);
+        }
+        .category-pill.active { background: var(--primary-color); color: #fff; box-shadow: 0 10px 20px rgba(139, 38, 24, 0.3); }
+
+        /* GRID CARDS */
+        .menu-section { padding: 40px 20px; max-width: 1200px; margin: 0 auto; scroll-margin-top: 100px; }
+        .section-title { font-size: 1.8rem; margin-bottom: 35px; color: #fff; font-weight: 900; letter-spacing: -0.5px; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+        
+        .item-card { 
+            background: var(--card-bg); border-radius: var(--border-radius); 
+            display: flex; flex-direction: column; overflow: hidden; 
+            border: 1px solid var(--glass-border); transition: var(--transition);
+            backdrop-filter: blur(10px);
+        }
+        .item-card:hover { transform: translateY(-10px); border-color: var(--secondary-color); }
+        .image-wrapper { position: relative; width: 100%; height: 180px; overflow: hidden; }
+        .item-img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        
+        .item-content { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .item-name { font-weight: 800; font-size: 1.15rem; color: #fff; margin-bottom: 5px; }
+        .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 15px; flex-grow: 1; }
+        
+        .price-container { display: flex; justify-content: space-between; align-items: center; }
+        .item-price { color: var(--accent-color); font-weight: 900; font-size: 1.3rem; }
+
+        .add-btn { background: var(--primary-color); color: white; border: none; width: 42px; height: 42px; border-radius: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+        .qty-controls { display: flex; align-items: center; gap: 12px; background: #000; border-radius: 14px; padding: 5px 10px; border: 1.5px solid var(--primary-color); }
+        .qty-btn { background: none; border: none; color: #fff; font-size: 1.1rem; cursor: pointer; font-weight: 900; }
+
+        /* FOOTER */
+        .footer-modern { background: #050505; padding: 100px 20px 60px; text-align: center; border-top: 1px solid var(--glass-border); position: relative; }
+        .watermark-center { 
+            width: 180px; height: 180px; background: url('https://i.imgur.com/Z0xzbAm.jpg') center/cover;
+            border-radius: 50%; opacity: 0.05; filter: grayscale(1); margin: 0 auto;
+            position: relative; z-index: 1;
+        }
+        .footer-main-info { position: absolute; top: 145px; left: 50%; transform: translateX(-50%); width: 100%; z-index: 5; }
+        .footer-main-info h3 { color: var(--secondary-color); font-weight: 900; letter-spacing: 8px; font-size: 1.5rem; }
+        .footer-main-info p { font-size: 0.6rem; color: #fff; text-transform: uppercase; letter-spacing: 4px; font-weight: 700; opacity: 0.8; }
+
+        .footer-bottom-details { margin-top: 100px; position: relative; z-index: 5; }
+        .social-row { display: flex; justify-content: center; gap: 30px; margin: 25px 0; }
+        .social-link { text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .social-link i { color: #fff; font-size: 1.2rem; }
+        .social-link span { color: var(--text-muted); font-size: 0.55rem; font-weight: 800; text-transform: uppercase; }
+
+        .dev-badge {
+            background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border);
+            padding: 10px 20px; border-radius: 50px; display: inline-flex; align-items: center; gap: 12px;
+            text-decoration: none; transition: var(--transition); margin-bottom: 120px;
+        }
+
+        /* CUSTOM ALERT (TOAST) */
+        .toast-box {
+            position: fixed; top: 25px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: #c0392b; color: #fff; padding: 14px 28px; border-radius: 50px;
+            z-index: 9999; font-weight: 800; font-size: 0.85rem; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex; align-items: center; gap: 10px;
+            pointer-events: none;
+        }
+        .toast-box.active { transform: translateX(-50%) translateY(0); }
+
+        /* CART & MODALS */
+        .cart-bar { position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%); width: calc(100% - 40px); max-width: 450px; background: var(--primary-color); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); z-index: 1000; transition: var(--transition); }
+        .cart-bar.visible { bottom: 75px; }
+        .checkout-btn-main { background: #fff; color: var(--primary-color); padding: 12px 25px; border-radius: 15px; font-weight: 900; border: none; cursor: pointer; }
+        .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(15px); }
+        .modal-content { background: #111; width: 90%; max-width: 450px; border-radius: 30px; padding: 30px; border: 1px solid var(--glass-border); }
+        .form-group input { width: 100%; background: #1a1a1a; border: 1.5px solid #252525; padding: 15px; color: white; border-radius: 15px; margin-top: 10px; outline: none; }
+
+        .promo-ticker { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--secondary-color); color: #000; padding: 10px 0; font-weight: 800; font-size: 0.8rem; overflow: hidden; z-index: 999; }
+        .ticker-wrapper { display: flex; white-space: nowrap; animation: ticker 40s linear infinite; }
+        .ticker-item { padding: 0 30px; }
+        @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .full-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); z-index: 5000; display: none; flex-direction: column; justify-content: center; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <div id="toast" class="toast-box"><i class="fas fa-exclamation-circle"></i> <span id="toast-txt"></span></div>
+
+    <div id="loading-screen" class="full-screen">
+        <div style="width:70px; height:70px; border-radius:50%; background:url('https://i.imgur.com/Z0xzbAm.jpg') center/cover; border:2px solid var(--secondary-color); animation: pulse 1s infinite;"></div>
+        <h2 style="color: var(--secondary-color); margin-top: 20px; font-weight: 900; letter-spacing: 3px; font-size: 0.8rem;">DOM JAJÁ ESTÁ PREPARANDO...</h2>
+    </div>
+
+    <header class="header-container" id="home">
+        <div class="cover-photo"></div>
+        <div class="profile-area">
+            <div class="profile-photo"></div>
+            <div class="shop-info">
+                <h1>Dom Jajá</h1>
+                <p class="description"><i class="fas fa-pizza-slice"></i> <i class="fas fa-beer"></i> Pizzaria & Choperia</p>
+                <div class="status-badge"><span class="dot" id="status-dot"></span><span id="status-text">...</span></div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="categories">
+        <a href="#pizzas" class="category-pill active">Pizzas</a>
+        <a href="#choperia" class="category-pill">Choperia</a>
+        <a href="#porcoes" class="category-pill">Porções</a>
+        <a href="#drinks" class="category-pill">Drinks</a>
+    </nav>
+
+    <main>
+        <section class="menu-section" id="pizzas">
+            <h2 class="section-title">Nossas Pizzas</h2>
+            <div class="grid-container">
+                <div class="item-card">
+                    <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500" class="item-img"></div>
+                    <div class="item-content">
+                        <p class="item-name">Dom Jajá Especial</p>
+                        <p class="item-desc">Massa artesanal, pepperoni e o toque secreto da casa.</p>
+                        <div class="price-container"><span class="item-price">R$ 54,90</span><div id="btn-1"><button class="add-btn" onclick="addItem(1)"><i class="fas fa-plus"></i></button></div></div>
+                    </div>
+                </div>
+                <div class="item-card">
+                    <div class="image-wrapper"><img src="https://i.imgur.com/yBg5bhb.jpg" class="item-img"></div>
+                    <div class="item-content">
+                        <p class="item-name">Margherita Gourmet</p>
+                        <p class="item-desc">Mozzarella de búfala e manjericão fresco colhido hoje.</p>
+                        <div class="price-container"><span class="item-price">R$ 48,00</span><div id="btn-2"><button class="add-btn" onclick="addItem(2)"><i class="fas fa-plus"></i></button></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section" id="choperia">
+            <h2 class="section-title">Bebidas & Chopp</h2>
+            <div class="grid-container">
+                <div class="item-card">
+                    <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=500" class="item-img"></div>
+                    <div class="item-content">
+                        <p class="item-name">Chopp Pilsen 500ml</p>
+                        <p class="item-desc">Tirado na pressão, extremamente gelado.</p>
+                        <div class="price-container"><span class="item-price">R$ 12,00</span><div id="btn-6"><button class="add-btn" onclick="addItem(6)"><i class="fas fa-plus"></i></button></div></div>
+                    </div>
+                </div>
+                <div class="item-card">
+                    <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1618885472179-5e474019f2a9?w=500" class="item-img"></div>
+                    <div class="item-content">
+                        <p class="item-name">Torre de Chopp 2.5L</p>
+                        <p class="item-desc">A gigante da mesa. Ideal para compartilhar.</p>
+                        <div class="price-container"><span class="item-price">R$ 65,00</span><div id="btn-7"><button class="add-btn" onclick="addItem(7)"><i class="fas fa-plus"></i></button></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section" id="porcoes">
+            <h2 class="section-title">Porções da Casa</h2>
+            <div class="grid-container">
+                <div class="item-card">
+                    <div class="image-wrapper"><img src="https://i.imgur.com/tXTmWLM.jpg" class="item-img"></div>
+                    <div class="item-content">
+                        <p class="item-name">Frango à Passarinho</p>
+                        <p class="item-desc">Crocante por fora e suculento por dentro com alho frito.</p>
+                        <div class="price-container"><span class="item-price">R$ 48,00</span><div id="btn-11"><button class="add-btn" onclick="addItem(11)"><i class="fas fa-plus"></i></button></div></div>
+                    </div>
+                </div>
+                <div class="item-card">
+                    <div class="image-wrapper"><img src="https://i.imgur.com/2NMi8KA.jpg" class="item-img"></div>
+                    <div class="item-content">
+                        <p class="item-name">Batata com Bacon</p>
+                        <p class="item-desc">Batata rústica coberta com cheddar e bacon.</p>
+                        <div class="price-container"><span class="item-price">R$ 35,00</span><div id="btn-12"><button class="add-btn" onclick="addItem(12)"><i class="fas fa-plus"></i></button></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="menu-section" id="drinks">
+            <h2 class="section-title">Drinks Especiais</h2>
+            <div class="grid-container">
+                <div class="item-card">
+                    <div class="image-wrapper"><img src="https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?w=500" class="item-img"></div>
+                    <div class="item-content">
+                        <p class="item-name">Gin Tônica Premium</p>
+                        <p class="item-desc">Gin importado, tônica e especiarias selecionadas.</p>
+                        <div class="price-container"><span class="item-price">R$ 28,00</span><div id="btn-17"><button class="add-btn" onclick="addItem(17)"><i class="fas fa-plus"></i></button></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-modern">
+        <div class="watermark-center"></div>
+        <div class="footer-main-info">
+            <h3>DOM JAJÁ</h3>
+            <p>Pizzaria & Choperia</p>
+        </div>
+        <div class="footer-bottom-details">
+            <div class="social-row">
+                <a href="https://www.instagram.com/nckzxzcyberghostx" target="_blank" class="social-link"><i class="fab fa-instagram"></i><span>Instagram</span></a>
+                <a href="https://wa.me/5514998798097" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i><span>WhatsApp</span></a>
+                <a href="https://www.facebook.com/share/1AQDty9M2s/" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i><span>Facebook</span></a>
+            </div>
+            <p style="font-size: 0.65rem; color: var(--secondary-color); font-weight: 800; letter-spacing: 2px;">ABERTO DAS 18H ÀS 00H - Exceto às terças.</p>
+        </div>
+    </footer>
+
+    <center>
+        <a href="#" class="dev-badge">
+            <div style="width: 30px; height: 30px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #fff;"><i class="fas fa-code"></i></div>
+            <div style="display:flex; flex-direction:column; text-align: left;">
+                <span style="font-size:0.5rem; color: #555; text-transform:uppercase; font-weight:800">Desenvolvido por</span>
+                <span style="font-size:0.75rem; color: #fff; font-weight:900; letter-spacing:1px">DMT ™</span>
+            </div>
+        </a>
+    </center>
+
+    <div class="cart-bar" id="cartBar">
+        <div>
+            <p id="cart-count" style="font-size: 0.75rem; font-weight: 700; opacity: 0.8;">0 ITENS</p>
+            <p id="cart-total" style="font-size: 1.3rem; font-weight: 900; color: var(--secondary-color);">R$ 0,00</p>
+        </div>
+        <button class="checkout-btn-main" onclick="openCheckout()">CONFERIR PEDIDO <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-content">
+            <h2 style="text-align:center; font-weight:900; margin-bottom:20px; color: var(--secondary-color)">MEU PEDIDO</h2>
+            <div id="review-list" style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;"></div>
+            <div class="form-group"><input type="text" id="cust-name" placeholder="Nome Completo"></div>
+            <div class="form-group"><input type="text" id="cust-address" placeholder="Rua e Número"></div>
+            <div class="form-group"><input type="text" id="cust-neighborhood" placeholder="Bairro"></div>
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                <button type="button" class="checkout-btn-main" style="background:#222; color:#fff; flex:1;" onclick="closeCheckout()">VOLTAR</button>
+                <button type="button" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; flex:2;" onclick="validateAndProcess()">FINALIZAR PEDIDO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="promo-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-item">🍕 PIZZA EM DOBRO TODA TERÇA</div>
+            <div class="ticker-item">🍺 HAPPY HOUR ATÉ 20H</div>
+            <div class="ticker-item">🚚 FRETE GRÁTIS ACIMA DE R$ 100</div>
+            <div class="ticker-item">🍕 PIZZA EM DOBRO TODA TERÇA</div>
+        </div>
+    </div>
+
+    <script>
+        let cart = {}; let total = 0; let count = 0;
+        let toastTimeout;
+
+        const productsData = {
+            1: { name: 'Dom Jajá Especial', price: 54.90 }, 
+            2: { name: 'Margherita Gourmet', price: 48.00 },
+            6: { name: 'Chopp Pilsen 500ml', price: 12.00 },
+            7: { name: 'Torre de Chopp 2.5L', price: 65.00 },
+            11: { name: 'Frango à Passarinho', price: 48.00 },
+            12: { name: 'Batata com Bacon', price: 35.00 },
+            17: { name: 'Gin Tônica Premium', price: 28.00 }
+        };
+
+        function callToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-txt').innerText = msg;
+            clearTimeout(toastTimeout);
+            t.classList.add('active');
+            toastTimeout = setTimeout(() => {
+                t.classList.remove('active');
+            }, 3000);
+        }
+
+        function hideToast() {
+            const t = document.getElementById('toast');
+            t.classList.remove('active');
+            clearTimeout(toastTimeout);
+        }
+
+        function updateStatus() {
+            const h = new Date().getHours();
+            const isOpen = h >= 18 && h < 24;
+            const dot = document.getElementById('status-dot');
+            const txt = document.getElementById('status-text');
+            if(dot) dot.className = isOpen ? "dot open" : "dot closed";
+            if(txt) txt.innerText = isOpen ? "ABERTO AGORA" : "FECHADO";
+        }
+        updateStatus();
+
+        function addItem(id) {
+            if (!cart[id]) cart[id] = { ...productsData[id], qty: 1 };
+            else cart[id].qty++;
+            renderControls(id); calculate();
+        }
+
+        function removeItem(id) {
+            if (cart[id]) {
+                cart[id].qty--;
+                if (cart[id].qty <= 0) { 
+                    delete cart[id]; 
+                    document.getElementById(`btn-${id}`).innerHTML = `<button class="add-btn" onclick="addItem(${id})"><i class="fas fa-plus"></i></button>`; 
+                } else renderControls(id);
+            }
+            calculate();
+        }
+
+        function renderControls(id) {
+            const container = document.getElementById(`btn-${id}`);
+            if(container) {
+                container.innerHTML = `
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="removeItem(${id})">-</button>
+                        <span class="qty-num">${cart[id].qty}</span>
+                        <button class="qty-btn" onclick="addItem(${id})">+</button>
+                    </div>`;
+            }
+        }
+
+        function calculate() {
+            total = 0; count = 0;
+            for (let id in cart) { total += cart[id].price * cart[id].qty; count += cart[id].qty; }
+            const bar = document.getElementById('cartBar');
+            if(bar) bar.classList.toggle('visible', count > 0);
+            document.getElementById('cart-count').innerText = `${count} ITENS`;
+            document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function openCheckout() {
+            const list = document.getElementById('review-list');
+            list.innerHTML = '';
+            for (let id in cart) {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #222;">
+                    <span style="font-size:0.85rem">${cart[id].qty}x ${cart[id].name}</span>
+                    <span style="font-weight:800; color:var(--accent-color)">R$ ${(cart[id].price * cart[id].qty).toFixed(2).replace('.', ',')}</span>
+                </div>`;
+            }
+            document.getElementById('checkoutModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckout() { 
+            document.getElementById('checkoutModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
+            hideToast();
+        }
+
+        function validateAndProcess() {
+            const n = document.getElementById('cust-name').value.trim();
+            const a = document.getElementById('cust-address').value.trim();
+            const b = document.getElementById('cust-neighborhood').value.trim();
+            
+            if(!n || !a || !b) { 
+                callToast("PREENCHA OS DADOS DE ENTREGA!"); 
+                return; 
+            }
+            
+            document.getElementById('checkoutModal').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'flex';
+            
+            setTimeout(() => {
+                let itens = "";
+                for (let id in cart) { itens += `• ${cart[id].qty}x ${cart[id].name}\n`; }
+                let msg = `*NOVO PEDIDO - DOM JAJÁ*\n\n*CLIENTE:* ${n}\n*END:* ${a}\n*BAIRRO:* ${b}\n\n*ITENS:*\n${itens}\n*TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}`;
+                
+                window.open(`https://wa.me/5514998798097?text=${encodeURIComponent(msg)}`, '_blank');
+                resetSite();
+            }, 2500);
+        }
+
+        function resetSite() {
+            cart = {};
+            calculate();
+            document.querySelectorAll('[id^="btn-"]').forEach(btnDiv => {
+                const id = btnDiv.id.replace('btn-', '');
+                btnDiv.innerHTML = `<button class="add-btn" onclick="addItem(${id})"><i class="fas fa-plus"></i></button>`;
+            });
+            document.getElementById('cust-name').value = '';
+            document.getElementById('cust-address').value = '';
+            document.getElementById('cust-neighborhood').value = '';
+            document.getElementById('loading-screen').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            callToast("PEDIDO ENVIADO COM SUCESSO!");
+        }
+
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.menu-section');
+            const navLinks = document.querySelectorAll('.category-pill');
+            let current = "";
+            sections.forEach(s => { if (pageYOffset >= s.offsetTop - 150) current = s.getAttribute("id"); });
+            navLinks.forEach(l => {
+                l.classList.remove("active");
+                if (l.getAttribute("href").includes(current)) l.classList.add("active");
+            });
+        });
+    </script>
+</body>
+</html>
