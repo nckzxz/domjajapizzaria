@@ -306,4 +306,287 @@
 
     <div class="modal-overlay" id="halfModal">
         <div class="modal-content">
-            <h2 style="text-align:center; font-weight:900; margin-bottom:10px;
+            <h2 style="text-align:center; font-weight:900; margin-bottom:10px; color: var(--secondary-color)">MEIO A MEIO</h2>
+            <p style="text-align:center; font-size:0.7rem; color: var(--text-muted); margin-bottom:20px;">Selecione 2 sabores. Prevalece o valor da maior.</p>
+            <div id="half-list"></div>
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                <button type="button" class="checkout-btn-main" style="background:#222; color:#fff; flex:1;" onclick="closeHalfModal()">CANCELAR</button>
+                <button type="button" id="confirmHalfBtn" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; flex:2; opacity:0.5;" disabled onclick="addHalfPizza()">ADICIONAR</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="checkoutModal">
+        <div class="modal-content">
+            <h2 style="text-align:center; font-weight:900; margin-bottom:20px; color: var(--secondary-color)">MEU PEDIDO</h2>
+            <div id="review-list" style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;"></div>
+            <div class="form-group"><input type="text" id="cust-name" placeholder="Nome Completo"></div>
+            <div class="form-group"><input type="text" id="cust-address" placeholder="Rua e Número"></div>
+            <div class="form-group"><input type="text" id="cust-neighborhood" placeholder="Bairro"></div>
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                <button type="button" class="checkout-btn-main" style="background:#222; color:#fff; flex:1;" onclick="closeCheckout()">VOLTAR</button>
+                <button type="button" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; flex:2;" onclick="validateAndProcess()">FINALIZAR PEDIDO</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="promo-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-item">🍕 PIZZA EM DOBRO TODA TERÇA</div>
+            <div class="ticker-item">🍺 HAPPY HOUR ATÉ 20H</div>
+            <div class="ticker-item">🚚 FRETE GRÁTIS ACIMA DE R$ 100</div>
+            <div class="ticker-item">🍕 PIZZA EM DOBRO TODA TERÇA</div>
+        </div>
+    </div>
+
+    <script>
+        let cart = {}; let total = 0; let count = 0;
+        let toastTimeout;
+        let selectedHalf = [];
+
+        const productsData = {
+            1: { name: 'Dom Jajá Especial', price: 54.90, category: 'pizzas' }, 
+            2: { name: 'Margherita Gourmet', price: 48.00, category: 'pizzas' },
+            6: { name: 'Chopp Pilsen 500ml', price: 12.00, category: 'bebidas' },
+            7: { name: 'Torre de Chopp 2.5L', price: 65.00, category: 'bebidas' },
+            11: { name: 'Frango à Passarinho', price: 48.00, category: 'porcoes' },
+            12: { name: 'Batata com Bacon', price: 35.00, category: 'porcoes' },
+            17: { name: 'Gin Tônica Premium', price: 28.00, category: 'drinks' }
+        };
+
+        function callToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-txt').innerText = msg;
+            clearTimeout(toastTimeout);
+            t.classList.add('active');
+            toastTimeout = setTimeout(() => {
+                t.classList.remove('active');
+            }, 3000);
+        }
+
+        function hideToast() {
+            const t = document.getElementById('toast');
+            if(t) t.classList.remove('active');
+        }
+
+        function updateStatus() {
+            const now = new Date();
+            const h = now.getHours();
+            const day = now.getDay(); // 0: Dom, 1: Seg, 2: Ter...
+            
+            // FECHADO ÀS TERÇAS
+            const isTuesday = (day === 2);
+            const isOpenTime = h >= 18 && h < 24;
+            const isOpen = !isTuesday && isOpenTime;
+            
+            const dot = document.getElementById('status-dot');
+            const txt = document.getElementById('status-text');
+            
+            if(dot) dot.className = isOpen ? "dot open" : "dot closed";
+            if(txt) txt.innerText = isTuesday ? "FECHADO (TERÇA)" : (isOpen ? "ABERTO AGORA" : "FECHADO");
+        }
+        updateStatus();
+
+        // ADICIONAR ITEM NORMAL
+        function addItem(id) {
+            if (!cart[id]) cart[id] = { ...productsData[id], qty: 1 };
+            else cart[id].qty++;
+            renderControls(id); 
+            calculate();
+        }
+
+        // REMOVER QUANTIDADE OU ITEM TOTAL
+        function removeItem(id) {
+            if (cart[id]) {
+                cart[id].qty--;
+                if (cart[id].qty <= 0) { 
+                    fullRemove(id);
+                } else {
+                    renderControls(id);
+                }
+            }
+            calculate();
+        }
+
+        // REMOVER ITEM COMPLETAMENTE (LIXEIRA)
+        function fullRemove(id) {
+            delete cart[id];
+            const btn = document.getElementById(`btn-${id}`);
+            if(btn) btn.innerHTML = `<button class="add-btn" onclick="addItem(${id})"><i class="fas fa-plus"></i></button>`;
+            
+            // Se o modal estiver aberto, atualiza a lista
+            if(document.getElementById('checkoutModal').style.display === 'flex') {
+                openCheckout();
+            }
+            calculate();
+        }
+
+        function renderControls(id) {
+            const container = document.getElementById(`btn-${id}`);
+            if(container) {
+                container.innerHTML = `
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="removeItem(${id})">-</button>
+                        <span class="qty-num">${cart[id].qty}</span>
+                        <button class="qty-btn" onclick="addItem(${id})">+</button>
+                    </div>`;
+            }
+        }
+
+        // LÓGICA MEIO A MEIO
+        function openHalfModal() {
+            const list = document.getElementById('half-list');
+            list.innerHTML = '';
+            selectedHalf = [];
+            document.getElementById('confirmHalfBtn').disabled = true;
+            document.getElementById('confirmHalfBtn').style.opacity = '0.5';
+
+            for (let id in productsData) {
+                if(productsData[id].category === 'pizzas') {
+                    list.innerHTML += `
+                        <div class="half-select-item" id="half-item-${id}" onclick="toggleHalf(${id})">
+                            <span>${productsData[id].name}</span>
+                            <span style="color:var(--accent-color); font-weight:800">R$ ${productsData[id].price.toFixed(2)}</span>
+                        </div>`;
+                }
+            }
+            document.getElementById('halfModal').style.display = 'flex';
+        }
+
+        function closeHalfModal() { document.getElementById('halfModal').style.display = 'none'; }
+
+        function toggleHalf(id) {
+            const idx = selectedHalf.indexOf(id);
+            if(idx > -1) {
+                selectedHalf.splice(idx, 1);
+                document.getElementById(`half-item-${id}`).classList.remove('selected');
+            } else {
+                if(selectedHalf.length < 2) {
+                    selectedHalf.push(id);
+                    document.getElementById(`half-item-${id}`).classList.add('selected');
+                } else {
+                    callToast("MÁXIMO 2 SABORES!");
+                }
+            }
+            
+            const btn = document.getElementById('confirmHalfBtn');
+            if(selectedHalf.length === 2) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';
+            }
+        }
+
+        function addHalfPizza() {
+            const p1 = productsData[selectedHalf[0]];
+            const p2 = productsData[selectedHalf[1]];
+            const finalPrice = Math.max(p1.price, p2.price);
+            const customId = `half-${selectedHalf[0]}-${selectedHalf[1]}`;
+            const customName = `Meio a Meio (${p1.name} / ${p2.name})`;
+
+            if(!cart[customId]) {
+                cart[customId] = { name: customName, price: finalPrice, qty: 1 };
+            } else {
+                cart[customId].qty++;
+            }
+
+            calculate();
+            closeHalfModal();
+            callToast("PIZZA MONTADA!");
+        }
+
+        function calculate() {
+            total = 0; count = 0;
+            for (let id in cart) { 
+                total += cart[id].price * cart[id].qty; 
+                count += cart[id].qty; 
+            }
+            const bar = document.getElementById('cartBar');
+            if(bar) bar.classList.toggle('visible', count > 0);
+            document.getElementById('cart-count').innerText = `${count} ITENS`;
+            document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+        }
+
+        function openCheckout() {
+            const list = document.getElementById('review-list');
+            list.innerHTML = '';
+            
+            if(count === 0) {
+                list.innerHTML = '<p style="text-align:center; color:var(--text-muted)">Carrinho vazio</p>';
+                setTimeout(closeCheckout, 1000);
+                return;
+            }
+
+            for (let id in cart) {
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #222;">
+                    <div style="flex:1">
+                        <span style="font-size:0.85rem">${cart[id].qty}x ${cart[id].name}</span><br>
+                        <span style="font-weight:800; color:var(--accent-color)">R$ ${(cart[id].price * cart[id].qty).toFixed(2).replace('.', ',')}</span>
+                    </div>
+                    <div class="remove-item-btn" onclick="fullRemove('${id}')"><i class="fas fa-trash-alt"></i></div>
+                </div>`;
+            }
+            document.getElementById('checkoutModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckout() { 
+            document.getElementById('checkoutModal').style.display = 'none'; 
+            document.body.style.overflow = 'auto';
+            hideToast();
+        }
+
+        function validateAndProcess() {
+            const n = document.getElementById('cust-name').value.trim();
+            const a = document.getElementById('cust-address').value.trim();
+            const b = document.getElementById('cust-neighborhood').value.trim();
+            
+            if(!n || !a || !b) { 
+                callToast("PREENCHA OS DADOS DE ENTREGA!"); 
+                return; 
+            }
+            
+            document.getElementById('checkoutModal').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'flex';
+            
+            setTimeout(() => {
+                let itens = "";
+                for (let id in cart) { itens += `• ${cart[id].qty}x ${cart[id].name}\n`; }
+                let msg = `*NOVO PEDIDO - DOM JAJÁ*\n\n*CLIENTE:* ${n}\n*END:* ${a}\n*BAIRRO:* ${b}\n\n*ITENS:*\n${itens}\n*TOTAL:* R$ ${total.toFixed(2).replace('.', ',')}`;
+                
+                window.open(`https://wa.me/5514998798097?text=${encodeURIComponent(msg)}`, '_blank');
+                resetSite();
+            }, 2500);
+        }
+
+        function resetSite() {
+            cart = {};
+            calculate();
+            document.querySelectorAll('[id^="btn-"]').forEach(btnDiv => {
+                const id = btnDiv.id.replace('btn-', '');
+                btnDiv.innerHTML = `<button class="add-btn" onclick="addItem(${id})"><i class="fas fa-plus"></i></button>`;
+            });
+            document.getElementById('cust-name').value = '';
+            document.getElementById('cust-address').value = '';
+            document.getElementById('cust-neighborhood').value = '';
+            document.getElementById('loading-screen').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            callToast("PEDIDO ENVIADO COM SUCESSO!");
+        }
+
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.menu-section');
+            const navLinks = document.querySelectorAll('.category-pill');
+            let current = "";
+            sections.forEach(s => { if (window.pageYOffset >= s.offsetTop - 150) current = s.getAttribute("id"); });
+            navLinks.forEach(l => {
+                l.classList.remove("active");
+                if (l.getAttribute("href").includes(current)) l.classList.add("active");
+            });
+        });
+    </script>
+</body>
+</html>
