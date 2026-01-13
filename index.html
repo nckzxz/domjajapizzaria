@@ -327,6 +327,14 @@
         <div class="modal-content">
             <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight: 800;">RESUMO</h2>
             <div id="review-list" style="margin-bottom: 20px;"></div>
+            
+            <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: #fff;">ESCOLHA A BORDA (GRÁTIS):</p>
+            <select id="cust-borda" class="checkout-input">
+                <option value="Sem Borda Recheada">Sem Borda Recheada</option>
+                <option value="Borda de Catupiry">Borda de Catupiry (Grátis)</option>
+                <option value="Borda de Cheddar">Borda de Cheddar (Grátis)</option>
+            </select>
+
             <input type="text" id="cust-name" class="checkout-input" placeholder="Seu Nome Completo">
             <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço, Número e Bairro">
             <p style="text-align:center; font-weight:800; font-size:1.4rem; color:var(--accent-color); margin: 20px 0;">Total: <span id="final-total">R$ 0,00</span></p>
@@ -530,6 +538,7 @@
         function sendWhatsApp() {
             const name = document.getElementById('cust-name').value;
             const address = document.getElementById('cust-addr').value;
+            const borda = document.getElementById('cust-borda').value;
             if(!name || !address) return showAlert("Por favor, preencha nome e endereço para entrega!");
 
             let total = 0;
@@ -539,7 +548,7 @@
                 total += item.price;
             });
 
-            const message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
+            const message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n🧀 *Borda:* ${borda}\n\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
             window.open(`https://wa.me/5516981312449?text=${encodeURIComponent(message)}`);
         }
 
