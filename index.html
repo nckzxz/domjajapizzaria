@@ -186,6 +186,9 @@
         }
         .size-option:active, .half-select-item.selected { border-color: var(--secondary-color); background: rgba(241,196,15,0.1); }
 
+        .half-select-info { display: flex; flex-direction: column; gap: 4px; flex: 1; padding-right: 10px; }
+        .half-select-desc { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; line-height: 1.2; }
+
         .checkout-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; color: #fff; border-radius: 14px; margin-bottom: 10px; font-size: 0.95rem; outline: none; }
         .checkout-input:focus { border-color: var(--secondary-color); }
 
@@ -334,54 +337,81 @@
 
     <script>
         const productsData = {
-            1: { name: "A Moda da Casa", desc: "Calabresa, catupiry, tomate, milho e bacon.", p: 36, g: 46, cat: "salgada" },
+            1: { name: "A Moda da Casa", desc: "Calabresa fatiada, catupiry, tomate, milho e bacon.", p: 36, g: 46, cat: "salgada" },
             2: { name: "Moda do Cheff", desc: "Muçarela, catupiry e peperoni.", p: 37, g: 47, cat: "salgada" },
-            3: { name: "Moda do Cliente", desc: "Escolha até 5 ingredientes.", p: 43, g: 56, cat: "salgada" },
-            4: { name: "Moda do Jajá", desc: "Muçarela, catupiry e rolinhos de presunto.", p: 35, g: 45, cat: "salgada" },
+            3: { name: "Moda do Cliente", desc: "Escolha até 5 tipos de ingredientes.", p: 43, g: 56, cat: "salgada" },
+            4: { name: "Moda do Jajá", desc: "Muçarela com catupiry e rolinhos de presunto e queijo.", p: 35, g: 45, cat: "salgada" },
             5: { name: "Alho", desc: "Alho granulado, muçarela e tomate.", p: 33, g: 42, cat: "salgada" },
             6: { name: "Aliche", desc: "Filé de anchovas, tomate e muçarela.", p: 35, g: 44, cat: "salgada" },
             7: { name: "Atum I", desc: "Atum, azeite e cebola.", p: 35, g: 44, cat: "salgada" },
-            8: { name: "Atum II", desc: "Atum, muçarela ou catupiry.", p: 37, g: 46, cat: "salgada" },
+            8: { name: "Atum II", desc: "Atum, azeite, muçarela ou catupiry.", p: 37, g: 46, cat: "salgada" },
             9: { name: "Bacon I", desc: "Bacon com muçarela.", p: 34, g: 42, cat: "salgada" },
-            10: { name: "Bacon II", desc: "Bacon, muçarela, cebola e catupiry.", p: 35, g: 44, cat: "salgada" },
-            11: { name: "Baiana", desc: "Calabresa, ovo, muçarela e pimenta.", p: 34, g: 44, cat: "salgada" },
+            10: { name: "Bacon II", desc: "Bacon, muçarela, cebola, catupiry ou cheddar.", p: 35, g: 44, cat: "salgada" },
+            11: { name: "Baiana", desc: "Calabresa, cebola, ovo, muçarela e pimenta.", p: 34, g: 44, cat: "salgada" },
             12: { name: "Baianinha", desc: "Calabresa moída e cebola.", p: 27, g: 35, cat: "salgada" },
-            13: { name: "Bauru Turbinado", desc: "Muçarela, presunto, tomate e catupiry.", p: 35, g: 43, cat: "salgada" },
+            13: { name: "Bauru Turbinado", desc: "Muçarela, presunto, tomate, catupiry ou cheddar.", p: 35, g: 43, cat: "salgada" },
             14: { name: "Bauru", desc: "Muçarela, presunto e tomate.", p: 33, g: 41, cat: "salgada" },
             15: { name: "Brócolis", desc: "Brócolis, muçarela, catupiry e bacon.", p: 35, g: 45, cat: "salgada" },
             16: { name: "Caipira", desc: "Frango, milho e catupiry.", p: 35, g: 45, cat: "salgada" },
             17: { name: "Calabresa I", desc: "Calabresa, cebola e azeitona.", p: 27, g: 35, cat: "salgada" },
             18: { name: "Calabresa II", desc: "Calabresa, muçarela e cebola.", p: 34, g: 43, cat: "salgada" },
-            19: { name: "Calabresa III", desc: "Calabresa com catupiry ou cheddar.", p: 35, g: 44, cat: "salgada" },
-            20: { name: "Carioca", desc: "Calabresa moída e muçarela.", p: 27, g: 35, cat: "salgada" },
-            21: { name: "Cowboy", desc: "Costela, catupiry, muçarela e tomate.", p: 40, g: 53, cat: "salgada" },
-            22: { name: "Crocante", desc: "Muçarela, catupiry e batata palha.", p: 34, g: 43, cat: "salgada" },
-            23: { name: "CQ Sabe", desc: "Brócolis, palmito, catupiry e tomate seco.", p: 37, g: 47, cat: "salgada" },
+            19: { name: "Calabresa III", desc: "Calabresa, catupiry ou cheddar.", p: 35, g: 44, cat: "salgada" },
+            20: { name: "Carioca", desc: "Calabresa moída, muçarela e azeitona.", p: 27, g: 35, cat: "salgada" },
+            21: { name: "Cowboy", desc: "Costela, catupiry, muçarela, tomate e pimentão.", p: 40, g: 53, cat: "salgada" },
+            22: { name: "Crocante", desc: "Muçarela, catupiry, batata palha.", p: 34, g: 43, cat: "salgada" },
+            23: { name: "CQ Sabe", desc: "Muçarela, brócolis, palmito, catupiry, alho granulado e tomate seco.", p: 37, g: 47, cat: "salgada" },
             24: { name: "Dois Queijos", desc: "Muçarela e catupiry.", p: 34, g: 42, cat: "salgada" },
-            25: { name: "Executiva", desc: "Provolone, calabresa, catupiry e milho.", p: 37, g: 47, cat: "salgada" },
+            25: { name: "Executiva", desc: "Muçarela, provolone, calabresa, catupiry e milho.", p: 37, g: 47, cat: "salgada" },
             26: { name: "Florentina", desc: "Frango, catupiry, cheddar e batata palha.", p: 36, g: 46, cat: "salgada" },
             27: { name: "Florenza", desc: "Calabresa, bacon, palmito e tomate.", p: 36, g: 46, cat: "salgada" },
             28: { name: "Frango I", desc: "Frango e cebola.", p: 27, g: 35, cat: "salgada" },
-            29: { name: "Frango II", desc: "Frango e muçarela.", p: 33, g: 43, cat: "salgada" },
+            29: { name: "Frango II", desc: "Frango e mussarela.", p: 33, g: 43, cat: "salgada" },
             30: { name: "Frango III", desc: "Frango, catupiry ou cheddar.", p: 35, g: 45, cat: "salgada" },
-            41: { name: "Muçarela", desc: "Muçarela especial e tomate.", p: 27, g: 35, cat: "salgada" },
-            43: { name: "Nordestina", desc: "Carne seca e catupiry.", p: 40, g: 53, cat: "salgada" },
+            31: { name: "Hambúrguer", desc: "Muçarela, hambúrguer, catupiry e tomate.", p: 39, g: 51, cat: "salgada" },
+            32: { name: "Hambúrguer de Picanha", desc: "Muçarela, hambúrguer picanha, cheddar e catupiry.", p: 45, g: 55, cat: "salgada" },
+            33: { name: "Hotdog", desc: "Salsicha, mostarda, ketchup, maionese, muçarela e batata palha.", p: 33, g: 43, cat: "salgada" },
+            34: { name: "Jardineira", desc: "Muçarela, milho, ervilha, bacon e cebola.", p: 35, g: 45, cat: "salgada" },
+            35: { name: "Lombo I", desc: "Lombo e muçarela.", p: 33, g: 43, cat: "salgada" },
+            36: { name: "Lombo II", desc: "Lombo, catupiry ou cheddar e muçarela.", p: 35, g: 45, cat: "salgada" },
+            37: { name: "Marguerita", desc: "Muçarela, tomate, parmesão e manjericão.", p: 31, g: 41, cat: "salgada" },
+            38: { name: "Milho I", desc: "Milho e muçarela.", p: 27, g: 35, cat: "salgada" },
+            39: { name: "Milho II", desc: "Milho, catupiry ou cheddar e muçarela.", p: 34, g: 44, cat: "salgada" },
+            40: { name: "Mineira", desc: "Calabresa, catupiry alho granulado e batata palha.", p: 35, g: 45, cat: "salgada" },
+            41: { name: "Muçarela", desc: "Queijo muçarela e tomate.", p: 27, g: 35, cat: "salgada" },
+            42: { name: "Namorados", desc: "Muçarela, catupiry e palmito.", p: 37, g: 47, cat: "salgada" },
+            43: { name: "Nordestina", desc: "Muçarela, carne seca, catupiry e tomate.", p: 40, g: 53, cat: "salgada" },
+            44: { name: "Original", desc: "Molho de tomate extra, muçarela, catupiry e tomate.", p: 33, g: 43, cat: "salgada" },
+            45: { name: "Palmito", desc: "Muçarela e palmito.", p: 34, g: 44, cat: "salgada" },
+            46: { name: "Paulista", desc: "Muçarela, catupiry e peito de peru.", p: 37, g: 47, cat: "salgada" },
+            47: { name: "Peperoni", desc: "Muçarela e peperoni.", p: 35, g: 45, cat: "salgada" },
+            48: { name: "Pernil ao Barbecue", desc: "Muçarela, pernil, catupiry e barbecue.", p: 39, g: 53, cat: "salgada" },
+            49: { name: "Portuguesa I", desc: "Muçarela, presunto, ervilha, ovo e cebola.", p: 35, g: 45, cat: "salgada" },
+            50: { name: "Portuguesa II", desc: "Muçarela, presunto, ovo, ervilha, palmito e catupiry.", p: 37, g: 47, cat: "salgada" },
+            51: { name: "Predileta", desc: "Palmito, champignons, muçarela e tomate seco.", p: 37, g: 47, cat: "salgada" },
             52: { name: "Quatro Queijos", desc: "Muçarela, catupiry, provolone e gorgonzola.", p: 37, g: 47, cat: "salgada" },
-            61: { name: "Pizza Porção", desc: "Borda recheada + Batata e Bacon.", p: 0, g: 55, cat: "porcao" },
+            53: { name: "Romana", desc: "Muçarela, aliche, parmesão e tomate.", p: 35, g: 44, cat: "salgada" },
+            54: { name: "Salame", desc: "Muçarela e salame.", p: 34, g: 44, cat: "salgada" },
+            55: { name: "Sertaneja", desc: "Muçarela, milho, palmito e bacon.", p: 35, g: 45, cat: "salgada" },
+            56: { name: "Siciliana", desc: "Muçarela, calabresa, champignon e bacon.", p: 35, g: 45, cat: "salgada" },
+            57: { name: "Strogonoff de Frango", desc: "Strogonoff, champignons, muçarela e batata palha.", p: 38, g: 48, cat: "salgada" },
+            58: { name: "Tanto Faz", desc: "Presunto, catupiry, batata palha e muçarela.", p: 34, g: 44, cat: "salgada" },
+            59: { name: "Tarantela", desc: "Muçarela, tomate seco e catupiry.", p: 34, g: 44, cat: "salgada" },
+            60: { name: "Vegetariana", desc: "Brócolis, milho, tomate, ervilha, palmito e muçarela.", p: 34, g: 44, cat: "salgada" },
+            61: { name: "Pizza Porção", desc: "Borda de Calabresa ou Frango, com catupiry ou cheddar e porção de batata com cheddar, catupiry e bacon.", p: 0, g: 55, cat: "porcao" },
             62: { name: "Banana", desc: "Banana, canela e leite condensado.", p: 33, g: 41, cat: "doce" },
-            63: { name: "Banana Nevada", desc: "Banana com chocolate branco.", p: 39, g: 49, cat: "doce" },
-            64: { name: "Beijinho", desc: "Leite condensado e coco.", p: 36, g: 44, cat: "doce" },
-            65: { name: "Bis", desc: "Chocolate ao leite e Bis.", p: 37, g: 47, cat: "doce" },
-            66: { name: "Brigadeiro", desc: "Chocolate e granulado.", p: 34, g: 44, cat: "doce" },
-            67: { name: "Calypso", desc: "Chocolate preto e branco.", p: 37, g: 47, cat: "doce" },
-            68: { name: "Calypso Morango", desc: "Chocolate e morangos.", p: 40, g: 53, cat: "doce" },
-            69: { name: "Doce de Leite", desc: "Doce de leite e coco.", p: 33, g: 43, cat: "doce" },
-            70: { name: "Frozen", desc: "Chocolate e sorvete de creme.", p: 40, g: 53, cat: "doce" },
-            71: { name: "KitKat", desc: "Chocolate e KitKat.", p: 37, g: 47, cat: "doce" },
-            72: { name: "M&M", desc: "Chocolate e confetes.", p: 37, g: 47, cat: "doce" },
-            73: { name: "Prestígio", desc: "Chocolate e coco.", p: 34, g: 44, cat: "doce" },
+            63: { name: "Banana Nevada", desc: "Chocolate branco com banana.", p: 39, g: 49, cat: "doce" },
+            64: { name: "Beijinho", desc: "Leite condensado coberto com coco ralado.", p: 36, g: 44, cat: "doce" },
+            65: { name: "Bis", desc: "Chocolate ao leite e bis.", p: 37, g: 47, cat: "doce" },
+            66: { name: "Brigadeiro", desc: "Chocolate ao leite e granulado.", p: 34, g: 44, cat: "doce" },
+            67: { name: "Calypso", desc: "Chocolate ao leite, chocolate branco.", p: 37, g: 47, cat: "doce" },
+            68: { name: "Calypso c/ Morango", desc: "Chocolate ao leite, chocolate branco e morango.", p: 40, g: 53, cat: "doce" },
+            69: { name: "Doce de Leite", desc: "Doce de leite e coco ralado.", p: 33, g: 43, cat: "doce" },
+            70: { name: "Frozen", desc: "Chocolate ao leite com bolas de sorvete sabor creme.", p: 40, g: 53, cat: "doce" },
+            71: { name: "KitKat", desc: "Chocolate ao leite, KitKat e morango.", p: 37, g: 47, cat: "doce" },
+            72: { name: "M&M", desc: "Chocolate ao leite e confete de chocolate.", p: 37, g: 47, cat: "doce" },
+            73: { name: "Prestígio", desc: "Chocolate ao leite e coco ralado.", p: 34, g: 44, cat: "doce" },
             74: { name: "Romeu e Julieta", desc: "Goiabada e muçarela.", p: 33, g: 41, cat: "doce" },
-            75: { name: "Sensação", desc: "Chocolate e morango.", p: 37, g: 47, cat: "doce" }
+            75: { name: "Sensação", desc: "Chocolate ao leite e morango.", p: 37, g: 47, cat: "doce" }
         };
 
         let cart = [];
@@ -436,7 +466,14 @@
             const list = document.getElementById('half-list'); list.innerHTML = ''; selectedHalf = [];
             for (let id in productsData) {
                 if(productsData[id].cat === 'salgada' && productsData[id].p !== 0) {
-                    list.innerHTML += `<div class="half-select-item" id="h-${id}" onclick="toggleHalf('${id}')"><span>${productsData[id].name}</span><b>R$ ${productsData[id].g.toFixed(2)}</b></div>`;
+                    list.innerHTML += `
+                    <div class="half-select-item" id="h-${id}" onclick="toggleHalf('${id}')">
+                        <div class="half-select-info">
+                            <span style="font-weight: 700; font-size: 0.9rem;">${productsData[id].name}</span>
+                            <span class="half-select-desc">${productsData[id].desc}</span>
+                        </div>
+                        <b style="color: var(--accent-color);">R$ ${productsData[id].g.toFixed(2)}</b>
+                    </div>`;
                 }
             }
             document.getElementById('halfModal').style.display = 'flex';
