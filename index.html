@@ -328,12 +328,14 @@
             <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight: 800;">RESUMO</h2>
             <div id="review-list" style="margin-bottom: 20px;"></div>
             
-            <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: #fff;">ESCOLHA A BORDA (GRÁTIS):</p>
-            <select id="cust-borda" class="checkout-input">
-                <option value="Sem Borda Recheada">Sem Borda Recheada</option>
-                <option value="Borda de Catupiry">Borda de Catupiry (Grátis)</option>
-                <option value="Borda de Cheddar">Borda de Cheddar (Grátis)</option>
-            </select>
+            <div id="borda-container">
+                <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: #fff;">ESCOLHA A BORDA (GRÁTIS):</p>
+                <select id="cust-borda" class="checkout-input">
+                    <option value="Sem Borda Recheada">Sem Borda Recheada</option>
+                    <option value="Borda de Catupiry">Borda de Catupiry (Grátis)</option>
+                    <option value="Borda de Cheddar">Borda de Cheddar (Grátis)</option>
+                </select>
+            </div>
 
             <input type="text" id="cust-name" class="checkout-input" placeholder="Seu Nome Completo">
             <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço, Número e Bairro">
@@ -414,7 +416,7 @@
             67: { name: "Calypso", desc: "Chocolate ao leite, chocolate branco.", p: 37, g: 47, cat: "doce" },
             68: { name: "Calypso c/ Morango", desc: "Chocolate ao leite, chocolate branco e morango.", p: 40, g: 53, cat: "doce" },
             69: { name: "Doce de Leite", desc: "Doce de leite e coco ralado.", p: 33, g: 43, cat: "doce" },
-            70: { name: "Frozen", desc: "Chocolate ao leite com bolas de sorvete sabor creme.", p: 40, g: 53, cat: "doce" },
+            70: { name: "Frozen", desc: "Chocolate ao leite with bolas de sorvete sabor creme.", p: 40, g: 53, cat: "doce" },
             71: { name: "KitKat", desc: "Chocolate ao leite, KitKat e morango.", p: 37, g: 47, cat: "doce" },
             72: { name: "M&M", desc: "Chocolate ao leite e confete de chocolate.", p: 37, g: 47, cat: "doce" },
             73: { name: "Prestígio", desc: "Chocolate ao leite e coco ralado.", p: 34, g: 44, cat: "doce" },
@@ -424,6 +426,15 @@
 
         let cart = [];
         let selectedHalf = [];
+
+        function isStoreOpen() {
+            const now = new Date();
+            const day = now.getDay();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTime = hours + (minutes/60);
+            return (day !== 2 && currentTime >= 18.5 && currentTime <= 24);
+        }
 
         function showAlert(msg) {
             document.getElementById('alertMsg').innerText = msg;
@@ -448,18 +459,14 @@
         }
 
         function updateStatus() {
-            const now = new Date();
-            const day = now.getDay();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const currentTime = hours + (minutes/60);
-            
-            const isOpen = (day !== 2 && currentTime >= 18.5 && currentTime <= 24);
+            const isOpen = isStoreOpen();
             document.getElementById('status-dot').className = isOpen ? 'dot open' : 'dot closed';
             document.getElementById('status-text').innerText = isOpen ? 'ABERTO AGORA' : 'FECHADO AGORA';
         }
 
         function openSizeModal(id) {
+            if(!isStoreOpen()) return showAlert("Desculpe, a loja está fechada no momento. Nosso horário é de Qua à Seg, das 18:30 às 00:00.");
+            
             closeModals();
             const p = productsData[id];
             if(p.p === 0) { addToCart(id, 'Unico', p.g); return; }
@@ -470,6 +477,8 @@
         }
 
         function openHalfModal() {
+            if(!isStoreOpen()) return showAlert("Desculpe, a loja está fechada no momento. Nosso horário é de Qua à Seg, das 18:30 às 00:00.");
+
             closeModals();
             const list = document.getElementById('half-list'); list.innerHTML = ''; selectedHalf = [];
             for (let id in productsData) {
@@ -501,18 +510,26 @@
         function addHalfPizza() {
             if(selectedHalf.length === 2) {
                 const p1 = productsData[selectedHalf[0]], p2 = productsData[selectedHalf[1]];
-                cart.push({ name: `Meio ${p1.name} / Meio ${p2.name}`, size: 'G', price: Math.max(p1.g, p2.g) });
+                cart.push({ 
+                    name: `Meio ${p1.name} / Meio ${p2.name}`, 
+                    desc: `1/2 ${p1.desc} | 1/2 ${p2.desc}`,
+                    size: 'G', 
+                    price: Math.max(p1.g, p2.g),
+                    cat: 'salgada'
+                });
                 updateCart(); closeModals(); showToast("Pizza meio a meio adicionada!");
             }
         }
 
         function addToCart(id, size, price) {
-            cart.push({ name: productsData[id].name, size: size, price: price });
+            const p = productsData[id];
+            cart.push({ name: p.name, desc: p.desc, size: size, price: price, cat: p.cat });
             updateCart(); closeModals(); showToast("Adicionado com sucesso!");
         }
 
         function addToCartExtra(name, price) {
-            cart.push({ name: name, size: 'Un', price: price });
+            if(!isStoreOpen()) return showAlert("Desculpe, a loja está fechada no momento.");
+            cart.push({ name: name, desc: "", size: 'Un', price: price, cat: 'extra' });
             updateCart(); showToast(`${name} adicionado!`);
         }
 
@@ -527,9 +544,27 @@
         function openCheckout() {
             closeModals();
             const list = document.getElementById('review-list'); list.innerHTML = '';
+            let hasSalgada = false;
+
             cart.forEach((it, idx) => {
-                list.innerHTML += `<div class="review-item" style="border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;"><div><p style="font-weight:700; font-size:0.95rem;">${it.name}</p><p style="font-size:0.75rem; color:#666;">Tamanho: ${it.size}</p></div><div style="display:flex; align-items:center; gap:15px;"><span style="color:var(--accent-color); font-weight:800;">R$ ${it.price.toFixed(2)}</span><i class="fas fa-trash-can" onclick="removeItem(${idx})" style="color:#ff4757; cursor:pointer; font-size:1.1rem;"></i></div></div>`;
+                if(it.cat === 'salgada' || it.cat === 'porcao') hasSalgada = true;
+                list.innerHTML += `
+                <div class="review-item" style="border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;">
+                    <div>
+                        <p style="font-weight:700; font-size:0.95rem;">${it.name}</p>
+                        <p style="font-size:0.75rem; color:#666; margin-bottom:4px;">Tamanho: ${it.size}</p>
+                        <p style="font-size:0.7rem; color:var(--text-muted); line-height:1.2; padding-right:10px;">${it.desc}</p>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:15px; margin-top:5px;">
+                        <span style="color:var(--accent-color); font-weight:800;">R$ ${it.price.toFixed(2)}</span>
+                        <i class="fas fa-trash-can" onclick="removeItem(${idx})" style="color:#ff4757; cursor:pointer; font-size:1.1rem;"></i>
+                    </div>
+                </div>`;
             });
+
+            document.getElementById('borda-container').style.display = hasSalgada ? 'block' : 'none';
+            if(!hasSalgada) document.getElementById('cust-borda').value = "Sem Borda Recheada";
+
             document.getElementById('checkoutModal').style.display = 'flex';
         }
 
@@ -539,6 +574,8 @@
             const name = document.getElementById('cust-name').value;
             const address = document.getElementById('cust-addr').value;
             const borda = document.getElementById('cust-borda').value;
+            const hasSalgada = cart.some(it => it.cat === 'salgada' || it.cat === 'porcao');
+            
             if(!name || !address) return showAlert("Por favor, preencha nome e endereço para entrega!");
 
             let total = 0;
@@ -548,7 +585,10 @@
                 total += item.price;
             });
 
-            const message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n🧀 *Borda:* ${borda}\n\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
+            let message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n`;
+            if(hasSalgada) message += `🧀 *Borda:* ${borda}\n`;
+            message += `\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
+            
             window.open(`https://wa.me/5516981312449?text=${encodeURIComponent(message)}`);
         }
 
@@ -559,7 +599,7 @@
             document.querySelectorAll('.half-select-item').forEach(el => el.classList.remove('selected'));
         }
 
-        window.onload = () => { renderMenu(); updateStatus(); };
+        window.onload = () => { renderMenu(); updateStatus(); setInterval(updateStatus, 60000); };
     </script>
 </body>
 </html>
