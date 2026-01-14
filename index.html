@@ -246,6 +246,7 @@
         <a href="#promocao" class="category-pill active">Promoção do Dia</a>
         <a href="#salgadas" class="category-pill">Salgadas</a>
         <a href="#porcao" class="category-pill">Pizza Porção</a>
+        <a href="#porcoes-gerais" class="category-pill">Porções</a>
         <a href="#doces" class="category-pill">Doces</a>
         <a href="#bebidas" class="category-pill">Bebidas</a>
     </nav>
@@ -286,6 +287,19 @@
             <div class="grid-container" id="grid-porcao"></div>
         </section>
 
+        <section class="menu-section" id="porcoes-gerais">
+            <h2 class="section-title">Porções</h2>
+            <div class="grid-container">
+                <div class="item-card"><div class="item-content"><p class="item-name">Batata Simples</p><p class="item-desc">Porção generosa de batata frita crocante.</p><div class="price-row"><span class="g-price">R$ 30,00</span><button class="add-btn" onclick="addToCartExtra('Batata Simples', 30)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Batata Completa</p><p class="item-desc">Batata frita com cheddar e bacon.</p><div class="price-row"><span class="g-price">R$ 50,00</span><button class="add-btn" onclick="addToCartExtra('Batata Completa', 50)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Porção Mista</p><p class="item-desc">Mix de petiscos variados.</p><div class="price-row"><span class="g-price">R$ 60,00</span><button class="add-btn" onclick="addToCartExtra('Porção Mista', 60)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Frango Frito</p><p class="item-desc">Pedaços suculentos de frango frito.</p><div class="price-row"><span class="g-price">R$ 48,00</span><button class="add-btn" onclick="addToCartExtra('Frango Frito', 48)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Calabresa</p><p class="item-desc">Calabresa acebolada frita.</p><div class="price-row"><span class="g-price">R$ 45,00</span><button class="add-btn" onclick="addToCartExtra('Calabresa', 45)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Contra Filé Acebolado</p><p class="item-desc">Tiras de contra filé com cebola.</p><div class="price-row"><span class="g-price">R$ 80,00</span><button class="add-btn" onclick="addToCartExtra('Contra Filé Acebolado', 80)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Contra Filé aos 2 Queijos</p><p class="item-desc">Contra filé coberto com muçarela e catupiry.</p><div class="price-row"><span class="g-price">R$ 110,00</span><button class="add-btn" onclick="addToCartExtra('Contra Filé aos 2 Queijos', 110)">ADICIONAR</button></div></div></div>
+            </div>
+        </section>
+
         <section class="menu-section" id="doces">
             <h2 class="section-title">Pizzas Doces</h2>
             <div class="grid-container" id="grid-doces"></div>
@@ -311,7 +325,7 @@
         <div class="social-links">
             <a href="https://www.instagram.com/domjajapizzariaechoperia?igsh=ZGk3b3RyN3pzOW1k" class="social-icon"><i class="fab fa-instagram"></i></a>
             <a href="https://www.facebook.com/share/1AQ4ULz7ye/" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://wa.me/+5516981312449" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://wa.me/+5514997212396" class="social-icon"><i class="fab fa-whatsapp"></i></a>
         </div>
         <p style="margin-top: 30px; font-size: 0.65rem; color: #555; letter-spacing: 2px;">DESENVOLVIDO POR DMT ™</p>
     </footer>
@@ -478,7 +492,6 @@
             document.getElementById('status-dot').className = isOpen ? 'dot open' : 'dot closed';
             document.getElementById('status-text').innerText = isOpen ? 'ABERTO AGORA' : 'FECHADO AGORA';
 
-            // Alerta de promoção SOMENTE NA QUARTA (day 3)
             if(day === 3) {
                 showAlert("HOJE É QUARTA MALUCA: 15 Esfihas variadas + Refri 2L por apenas R$ 36,99! Aproveite!");
             }
@@ -566,7 +579,7 @@
             });
 
             const message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
-            window.open(`https://wa.me/5516981312449?text=${encodeURIComponent(message)}`);
+            window.open(`https://wa.me/5514997212396?text=${encodeURIComponent(message)}`);
         }
 
         function showToast(txt) { const t = document.getElementById('toast'); t.innerText = txt; t.classList.add('active'); setTimeout(()=>t.classList.remove('active'), 2500); }
