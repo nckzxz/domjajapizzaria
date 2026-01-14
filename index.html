@@ -208,8 +208,8 @@
 
     <div class="alert-modal-overlay" id="customAlert">
         <div class="alert-modal-card">
-            <i class="fas fa-circle-exclamation alert-icon"></i>
-            <p class="alert-title">Atenção</p>
+            <i class="fas fa-bullhorn alert-icon"></i>
+            <p class="alert-title">Promoção do Dia!</p>
             <p class="alert-message" id="alertMsg" style="color: #bbb; margin-bottom: 20px;">Mensagem.</p>
             <button class="alert-btn" onclick="closeAlert()">ENTENDI</button>
         </div>
@@ -237,13 +237,14 @@
     </header>
 
     <section class="info-panel">
-        <div class="info-item"><i class="fas fa-clock"></i><span>Qua à Seg: 18:30 às 00:00 (Terça Fechado)</span></div>
+        <div class="info-item"><i class="fas fa-clock"></i><span>Seg, Qua e Qui: 18:00 às 22:30 | Sex a Dom: 18:00 às 23:00 (Terça Fechado)</span></div>
         <div class="info-item"><i class="fas fa-motorcycle"></i><span>Entrega Rápida</span></div>
         <div class="info-item"><i class="fas fa-fire"></i><span>Novidade: Pizza Porção Especial!</span></div>
     </section>
 
     <nav class="categories">
-        <a href="#salgadas" class="category-pill active">Salgadas</a>
+        <a href="#promocao" class="category-pill active">Promoção do Dia</a>
+        <a href="#salgadas" class="category-pill">Salgadas</a>
         <a href="#porcao" class="category-pill">Pizza Porção</a>
         <a href="#doces" class="category-pill">Doces</a>
         <a href="#bebidas" class="category-pill">Bebidas</a>
@@ -251,11 +252,27 @@
 
     <div class="promo-ticker">
         <div class="ticker-content">
-             PROMOÇÕES TODA SEMANA • PEÇA AGORA • NOVIDADE: EXPERIMENTE A NOSSA EXCLUSIVA PIZZA PORÇÃO! BORDA RECHEADA + BATATA COM BACON NO MEIO • PROMOÇÕES TODA SEMANA • PEÇA AGORA • NOVIDADE: EXPERIMENTE A NOSSA EXCLUSIVA PIZZA PORÇÃO! BORDA RECHEADA + BATATA COM BACON NO MEIO • 
+             QUARTA MALUCA: 15 ESFIHAS VARIADAS + REFRIGERANTE 2L POR APENAS R$ 36,99 • PEÇA AGORA • NOVIDADE: EXPERIMENTE A NOSSA EXCLUSIVA PIZZA PORÇÃO! • 
         </div>
     </div>
 
     <main>
+        <section class="menu-section" id="promocao">
+            <h2 class="section-title">Combo Especial</h2>
+            <div class="grid-container">
+                <div class="item-card" style="border: 2px solid var(--secondary-color);">
+                    <div class="item-content">
+                        <p class="item-name">Combo 15 Esfihas + Refri</p>
+                        <p class="item-desc">Combo Quarta Maluca: 2 Carne, 2 Queijo, 2 Lombo c/ Queijo, 2 Calabresa c/ Queijo, 2 Mista, 2 Queijo c/ Milho, 3 Brigadeiro + Refri 2L Grátis!</p>
+                        <div class="price-row">
+                            <span class="g-price" style="color: var(--secondary-color)">R$ 36,99</span>
+                            <button class="add-btn" onclick="addToCartExtra('Combo 15 Esfihas + Refri', 36.99)">ADICIONAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="menu-section" id="salgadas">
             <h2 class="section-title">Pizzas Salgadas</h2>
             <button class="half-btn" onclick="openHalfModal()">
@@ -440,14 +457,34 @@
 
         function updateStatus() {
             const now = new Date();
-            const day = now.getDay();
+            const day = now.getDay(); 
             const hours = now.getHours();
             const minutes = now.getMinutes();
             const currentTime = hours + (minutes/60);
             
-            const isOpen = (day !== 2 && currentTime >= 18.5 && currentTime <= 24);
+            let isOpen = false;
+
+            // Horários atualizados: 
+            // Seg, Qua, Qui: 18h - 22h30
+            if ([1, 3, 4].includes(day)) {
+                if (currentTime >= 18.0 && currentTime <= 22.5) {
+                    isOpen = true;
+                }
+            } 
+            // Sex, Sab, Dom: 18h - 23h
+            else if ([5, 6, 0].includes(day)) {
+                if (currentTime >= 18.0 && currentTime <= 23.0) {
+                    isOpen = true;
+                }
+            }
+
             document.getElementById('status-dot').className = isOpen ? 'dot open' : 'dot closed';
             document.getElementById('status-text').innerText = isOpen ? 'ABERTO AGORA' : 'FECHADO AGORA';
+
+            // Alerta de promoção SOMENTE NA QUARTA (day 3)
+            if(day === 3) {
+                showAlert("HOJE É QUARTA MALUCA: 15 Esfihas variadas + Refri 2L por apenas R$ 36,99! Aproveite!");
+            }
         }
 
         function openSizeModal(id) {
