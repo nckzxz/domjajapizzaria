@@ -295,7 +295,7 @@
             <h2 class="section-title">Bebidas</h2>
             <div class="grid-container">
                 <div class="item-card"><div class="item-content"><p class="item-name">Refrigerante Lata</p><p class="item-desc">350ml bem gelado.</p><div class="price-row"><span class="g-price">R$ 6,00</span><button class="add-btn" onclick="addToCartExtra('Refrigerante Lata', 6)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Acompanhamento indispensável bem gelada.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 13)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Acompanhamento indispensável bem gelada.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 15)">ADICIONAR</button></div></div></div>
                 <div class="item-card"><div class="item-content"><p class="item-name">Sprite 2L</p><p class="item-desc">Refrescante sabor limão.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Sprite 2L', 15)">ADICIONAR</button></div></div></div>
                 <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor inconfundível de laranja.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
                 <div class="item-card"><div class="item-content"><p class="item-name">Guaraná Antártica 2L</p><p class="item-desc">O sabor original da Amazônia.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Guaraná Antártica 2L', 15)">ADICIONAR</button></div></div></div>
@@ -464,14 +464,11 @@
             
             let isOpen = false;
 
-            // Horários atualizados: 
-            // Seg, Qua, Qui: 18h - 22h30
             if ([1, 3, 4].includes(day)) {
                 if (currentTime >= 18.0 && currentTime <= 22.5) {
                     isOpen = true;
                 }
             } 
-            // Sex, Sab, Dom: 18h - 23h
             else if ([5, 6, 0].includes(day)) {
                 if (currentTime >= 18.0 && currentTime <= 23.0) {
                     isOpen = true;
