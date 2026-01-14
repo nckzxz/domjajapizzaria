@@ -186,9 +186,6 @@
         }
         .size-option:active, .half-select-item.selected { border-color: var(--secondary-color); background: rgba(241,196,15,0.1); }
 
-        .half-select-info { display: flex; flex-direction: column; gap: 4px; flex: 1; padding-right: 10px; }
-        .half-select-desc { font-size: 0.7rem; color: var(--text-muted); font-weight: 400; line-height: 1.2; }
-
         .checkout-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; color: #fff; border-radius: 14px; margin-bottom: 10px; font-size: 0.95rem; outline: none; }
         .checkout-input:focus { border-color: var(--secondary-color); }
 
@@ -249,7 +246,7 @@
         <a href="#salgadas" class="category-pill active">Salgadas</a>
         <a href="#porcao" class="category-pill">Pizza Porção</a>
         <a href="#doces" class="category-pill">Doces</a>
-        <a href="#bebidas" class="category-pill">Bebidas & Porções</a>
+        <a href="#bebidas" class="category-pill">Bebidas</a>
     </nav>
 
     <div class="promo-ticker">
@@ -278,11 +275,13 @@
         </section>
 
         <section class="menu-section" id="bebidas">
-            <h2 class="section-title">Bebidas & Porções</h2>
+            <h2 class="section-title">Bebidas</h2>
             <div class="grid-container">
-                <div class="item-card"><div class="item-content"><p class="item-name">Chopp Brahma 500ml</p><p class="item-desc">Gelado e trincando, servido na temperatura ideal!</p><div class="price-row"><span class="g-price">R$ 18,00</span><button class="add-btn" onclick="addToCartExtra('Chopp Brahma 500ml', 18)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Acompanhamento indispensável bem gelada.</p><div class="price-row"><span class="g-price">R$ 16,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 16)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Batata com Bacon</p><p class="item-desc">Porção generosa, crocante e sequinha.</p><div class="price-row"><span class="g-price">R$ 45,00</span><button class="add-btn" onclick="addToCartExtra('Batata com Bacon', 45)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Refrigerante Lata</p><p class="item-desc">350ml bem gelado.</p><div class="price-row"><span class="g-price">R$ 6,00</span><button class="add-btn" onclick="addToCartExtra('Refrigerante Lata', 6)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Acompanhamento indispensável bem gelada.</p><div class="price-row"><span class="g-price">R$ 13,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 13)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Sprite 2L</p><p class="item-desc">Refrescante sabor limão.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Sprite 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor inconfundível de laranja.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Guaraná Antártica 2L</p><p class="item-desc">O sabor original da Amazônia.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Guaraná Antártica 2L', 15)">ADICIONAR</button></div></div></div>
             </div>
         </section>
     </main>
@@ -295,7 +294,7 @@
         <div class="social-links">
             <a href="https://www.instagram.com/domjajapizzariaechoperia?igsh=ZGk3b3RyN3pzOW1k" class="social-icon"><i class="fab fa-instagram"></i></a>
             <a href="https://www.facebook.com/share/1AQ4ULz7ye/" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://wa.me/+5514997212396" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://wa.me/+5516981312449" class="social-icon"><i class="fab fa-whatsapp"></i></a>
         </div>
         <p style="margin-top: 30px; font-size: 0.65rem; color: #555; letter-spacing: 2px;">DESENVOLVIDO POR DMT ™</p>
     </footer>
@@ -327,16 +326,6 @@
         <div class="modal-content">
             <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight: 800;">RESUMO</h2>
             <div id="review-list" style="margin-bottom: 20px;"></div>
-            
-            <div id="borda-container">
-                <p style="font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; color: #fff;">ESCOLHA A BORDA (GRÁTIS):</p>
-                <select id="cust-borda" class="checkout-input">
-                    <option value="Sem Borda Recheada">Sem Borda Recheada</option>
-                    <option value="Borda de Catupiry">Borda de Catupiry (Grátis)</option>
-                    <option value="Borda de Cheddar">Borda de Cheddar (Grátis)</option>
-                </select>
-            </div>
-
             <input type="text" id="cust-name" class="checkout-input" placeholder="Seu Nome Completo">
             <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço, Número e Bairro">
             <p style="text-align:center; font-weight:800; font-size:1.4rem; color:var(--accent-color); margin: 20px 0;">Total: <span id="final-total">R$ 0,00</span></p>
@@ -416,7 +405,7 @@
             67: { name: "Calypso", desc: "Chocolate ao leite, chocolate branco.", p: 37, g: 47, cat: "doce" },
             68: { name: "Calypso c/ Morango", desc: "Chocolate ao leite, chocolate branco e morango.", p: 40, g: 53, cat: "doce" },
             69: { name: "Doce de Leite", desc: "Doce de leite e coco ralado.", p: 33, g: 43, cat: "doce" },
-            70: { name: "Frozen", desc: "Chocolate ao leite with bolas de sorvete sabor creme.", p: 40, g: 53, cat: "doce" },
+            70: { name: "Frozen", desc: "Chocolate ao leite com bolas de sorvete sabor creme.", p: 40, g: 53, cat: "doce" },
             71: { name: "KitKat", desc: "Chocolate ao leite, KitKat e morango.", p: 37, g: 47, cat: "doce" },
             72: { name: "M&M", desc: "Chocolate ao leite e confete de chocolate.", p: 37, g: 47, cat: "doce" },
             73: { name: "Prestígio", desc: "Chocolate ao leite e coco ralado.", p: 34, g: 44, cat: "doce" },
@@ -426,15 +415,6 @@
 
         let cart = [];
         let selectedHalf = [];
-
-        function isStoreOpen() {
-            const now = new Date();
-            const day = now.getDay();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const currentTime = hours + (minutes/60);
-            return (day !== 2 && currentTime >= 18.5 && currentTime <= 24);
-        }
 
         function showAlert(msg) {
             document.getElementById('alertMsg').innerText = msg;
@@ -459,14 +439,18 @@
         }
 
         function updateStatus() {
-            const isOpen = isStoreOpen();
+            const now = new Date();
+            const day = now.getDay();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTime = hours + (minutes/60);
+            
+            const isOpen = (day !== 2 && currentTime >= 18.5 && currentTime <= 24);
             document.getElementById('status-dot').className = isOpen ? 'dot open' : 'dot closed';
             document.getElementById('status-text').innerText = isOpen ? 'ABERTO AGORA' : 'FECHADO AGORA';
         }
 
         function openSizeModal(id) {
-            if(!isStoreOpen()) return showAlert("Desculpe, a loja está fechada no momento. Nosso horário é de Qua à Seg, das 18:30 às 00:00.");
-            
             closeModals();
             const p = productsData[id];
             if(p.p === 0) { addToCart(id, 'Unico', p.g); return; }
@@ -477,20 +461,11 @@
         }
 
         function openHalfModal() {
-            if(!isStoreOpen()) return showAlert("Desculpe, a loja está fechada no momento. Nosso horário é de Qua à Seg, das 18:30 às 00:00.");
-
             closeModals();
             const list = document.getElementById('half-list'); list.innerHTML = ''; selectedHalf = [];
             for (let id in productsData) {
                 if(productsData[id].cat === 'salgada' && productsData[id].p !== 0) {
-                    list.innerHTML += `
-                    <div class="half-select-item" id="h-${id}" onclick="toggleHalf('${id}')">
-                        <div class="half-select-info">
-                            <span style="font-weight: 700; font-size: 0.9rem;">${productsData[id].name}</span>
-                            <span class="half-select-desc">${productsData[id].desc}</span>
-                        </div>
-                        <b style="color: var(--accent-color);">R$ ${productsData[id].g.toFixed(2)}</b>
-                    </div>`;
+                    list.innerHTML += `<div class="half-select-item" id="h-${id}" onclick="toggleHalf('${id}')"><span>${productsData[id].name}</span><b>R$ ${productsData[id].g.toFixed(2)}</b></div>`;
                 }
             }
             document.getElementById('halfModal').style.display = 'flex';
@@ -510,26 +485,18 @@
         function addHalfPizza() {
             if(selectedHalf.length === 2) {
                 const p1 = productsData[selectedHalf[0]], p2 = productsData[selectedHalf[1]];
-                cart.push({ 
-                    name: `Meio ${p1.name} / Meio ${p2.name}`, 
-                    desc: `1/2 ${p1.desc} | 1/2 ${p2.desc}`,
-                    size: 'G', 
-                    price: Math.max(p1.g, p2.g),
-                    cat: 'salgada'
-                });
+                cart.push({ name: `Meio ${p1.name} / Meio ${p2.name}`, size: 'G', price: Math.max(p1.g, p2.g) });
                 updateCart(); closeModals(); showToast("Pizza meio a meio adicionada!");
             }
         }
 
         function addToCart(id, size, price) {
-            const p = productsData[id];
-            cart.push({ name: p.name, desc: p.desc, size: size, price: price, cat: p.cat });
+            cart.push({ name: productsData[id].name, size: size, price: price });
             updateCart(); closeModals(); showToast("Adicionado com sucesso!");
         }
 
         function addToCartExtra(name, price) {
-            if(!isStoreOpen()) return showAlert("Desculpe, a loja está fechada no momento.");
-            cart.push({ name: name, desc: "", size: 'Un', price: price, cat: 'extra' });
+            cart.push({ name: name, size: 'Un', price: price });
             updateCart(); showToast(`${name} adicionado!`);
         }
 
@@ -544,27 +511,9 @@
         function openCheckout() {
             closeModals();
             const list = document.getElementById('review-list'); list.innerHTML = '';
-            let hasSalgada = false;
-
             cart.forEach((it, idx) => {
-                if(it.cat === 'salgada' || it.cat === 'porcao') hasSalgada = true;
-                list.innerHTML += `
-                <div class="review-item" style="border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;">
-                    <div>
-                        <p style="font-weight:700; font-size:0.95rem;">${it.name}</p>
-                        <p style="font-size:0.75rem; color:#666; margin-bottom:4px;">Tamanho: ${it.size}</p>
-                        <p style="font-size:0.7rem; color:var(--text-muted); line-height:1.2; padding-right:10px;">${it.desc}</p>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:15px; margin-top:5px;">
-                        <span style="color:var(--accent-color); font-weight:800;">R$ ${it.price.toFixed(2)}</span>
-                        <i class="fas fa-trash-can" onclick="removeItem(${idx})" style="color:#ff4757; cursor:pointer; font-size:1.1rem;"></i>
-                    </div>
-                </div>`;
+                list.innerHTML += `<div class="review-item" style="border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;"><div><p style="font-weight:700; font-size:0.95rem;">${it.name}</p><p style="font-size:0.75rem; color:#666;">Tamanho: ${it.size}</p></div><div style="display:flex; align-items:center; gap:15px;"><span style="color:var(--accent-color); font-weight:800;">R$ ${it.price.toFixed(2)}</span><i class="fas fa-trash-can" onclick="removeItem(${idx})" style="color:#ff4757; cursor:pointer; font-size:1.1rem;"></i></div></div>`;
             });
-
-            document.getElementById('borda-container').style.display = hasSalgada ? 'block' : 'none';
-            if(!hasSalgada) document.getElementById('cust-borda').value = "Sem Borda Recheada";
-
             document.getElementById('checkoutModal').style.display = 'flex';
         }
 
@@ -573,9 +522,6 @@
         function sendWhatsApp() {
             const name = document.getElementById('cust-name').value;
             const address = document.getElementById('cust-addr').value;
-            const borda = document.getElementById('cust-borda').value;
-            const hasSalgada = cart.some(it => it.cat === 'salgada' || it.cat === 'porcao');
-            
             if(!name || !address) return showAlert("Por favor, preencha nome e endereço para entrega!");
 
             let total = 0;
@@ -585,11 +531,8 @@
                 total += item.price;
             });
 
-            let message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n`;
-            if(hasSalgada) message += `🧀 *Borda:* ${borda}\n`;
-            message += `\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
-            
-            window.open(`https://wa.me/5514997212396?text=${encodeURIComponent(message)}`);
+            const message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
+            window.open(`https://wa.me/5516981312449?text=${encodeURIComponent(message)}`);
         }
 
         function showToast(txt) { const t = document.getElementById('toast'); t.innerText = txt; t.classList.add('active'); setTimeout(()=>t.classList.remove('active'), 2500); }
@@ -599,7 +542,7 @@
             document.querySelectorAll('.half-select-item').forEach(el => el.classList.remove('selected'));
         }
 
-        window.onload = () => { renderMenu(); updateStatus(); setInterval(updateStatus, 60000); };
+        window.onload = () => { renderMenu(); updateStatus(); };
     </script>
 </body>
 </html>
