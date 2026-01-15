@@ -144,6 +144,10 @@
         .alert-title { font-weight: 800; color: #fff; font-size: 1.3rem; margin-bottom: 8px; }
         .alert-btn { background: var(--secondary-color); color: #000; border: none; padding: 14px; border-radius: 16px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 10px; }
 
+        /* MODAL FECHADO ESPECÍFICO */
+        .closed-modal-card { border-color: var(--status-closed) !important; }
+        .closed-icon { color: var(--status-closed) !important; }
+
         /* FOOTER SOCIAL */
         .social-section { padding: 60px 20px 40px; text-align: center; background: linear-gradient(to bottom, transparent, #050505); }
         
@@ -212,6 +216,21 @@
             <p class="alert-title">Promoção do Dia!</p>
             <p class="alert-message" id="alertMsg" style="color: #bbb; margin-bottom: 20px;">Mensagem.</p>
             <button class="alert-btn" onclick="closeAlert()">ENTENDI</button>
+        </div>
+    </div>
+
+    <div class="alert-modal-overlay" id="closedAlert">
+        <div class="alert-modal-card closed-modal-card">
+            <i class="fas fa-moon alert-icon closed-icon"></i>
+            <p class="alert-title">Estamos Descansando!</p>
+            <p style="color: #bbb; margin-bottom: 20px; font-size: 0.9rem;">
+                No momento nossa cozinha está fechada. <br><br>
+                <b>Horário de Funcionamento:</b><br>
+                Seg, Qua e Qui: 18:00 às 22:30<br>
+                Sex a Dom: 18:00 às 23:00<br>
+                <span style="color: var(--status-closed)">(Terça-feira: Fechado)</span>
+            </p>
+            <button class="alert-btn" style="background: var(--status-closed); color: #fff;" onclick="closeClosedAlert()">VOLTAR AO CARDÁPIO</button>
         </div>
     </div>
 
@@ -446,6 +465,7 @@
 
         let cart = [];
         let selectedHalf = [];
+        let isShopOpen = false; // Variável global para controle de trava
 
         function showAlert(msg) {
             document.getElementById('alertMsg').innerText = msg;
@@ -456,6 +476,19 @@
 
         function closeAlert() {
             const overlay = document.getElementById('customAlert');
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.style.display = 'none', 300);
+        }
+
+        // Funções para controle do modal de fechado
+        function showClosedAlert() {
+            const overlay = document.getElementById('closedAlert');
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+        }
+
+        function closeClosedAlert() {
+            const overlay = document.getElementById('closedAlert');
             overlay.classList.remove('active');
             setTimeout(() => overlay.style.display = 'none', 300);
         }
@@ -489,15 +522,19 @@
                 }
             }
 
+            isShopOpen = isOpen; // Atualiza a trava global
+
             document.getElementById('status-dot').className = isOpen ? 'dot open' : 'dot closed';
             document.getElementById('status-text').innerText = isOpen ? 'ABERTO AGORA' : 'FECHADO AGORA';
 
-            if(day === 3) {
+            if(day === 3 && isOpen) {
                 showAlert("HOJE É QUARTA MALUCA: 15 Esfihas variadas + Refri 2L por apenas R$ 36,99! Aproveite!");
             }
         }
 
         function openSizeModal(id) {
+            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
+            
             closeModals();
             const p = productsData[id];
             if(p.p === 0) { addToCart(id, 'Unico', p.g); return; }
@@ -508,6 +545,8 @@
         }
 
         function openHalfModal() {
+            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
+
             closeModals();
             const list = document.getElementById('half-list'); list.innerHTML = ''; selectedHalf = [];
             for (let id in productsData) {
@@ -538,11 +577,15 @@
         }
 
         function addToCart(id, size, price) {
+            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
+            
             cart.push({ name: productsData[id].name, size: size, price: price });
             updateCart(); closeModals(); showToast("Adicionado com sucesso!");
         }
 
         function addToCartExtra(name, price) {
+            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
+
             cart.push({ name: name, size: 'Un', price: price });
             updateCart(); showToast(`${name} adicionado!`);
         }
