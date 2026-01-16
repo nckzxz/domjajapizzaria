@@ -79,9 +79,11 @@
 
         /* FOOTER */
         .social-section { padding: 60px 20px 40px; text-align: center; background: linear-gradient(to bottom, transparent, #050505); }
+        .social-title { font-weight: 800; color: var(--secondary-color); font-size: 1rem; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
         .social-logo { width: 70px; height: 70px; border-radius: 20px; margin-bottom: 15px; border: 2px solid var(--secondary-color); padding: 2px; }
         .social-links { display: flex; justify-content: center; gap: 15px; }
         .social-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; text-decoration: none; border: 1px solid var(--glass-border); transition: 0.3s; }
+        .copyright { margin-top: 30px; font-size: 0.75rem; color: #555; line-height: 1.6; }
 
         /* MODALS */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(20px); padding: 20px; }
@@ -95,7 +97,7 @@
         .cart-bar.visible { transform: translateX(-50%) translateY(0); }
         .checkout-btn-main { background: #fff; color: var(--primary-color); padding: 12px 20px; border-radius: 14px; font-weight: 800; border: none; cursor: pointer; }
 
-        /* ALERTS */
+        /* ALERTS / INFO POPUP */
         .alert-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
         .alert-modal-card { background: #1a1a1a; border: 1px solid var(--secondary-color); border-radius: 28px; padding: 30px; width: 90%; max-width: 340px; text-align: center; transform: translateY(20px); transition: 0.4s; }
         .alert-modal-overlay.active { display: flex; }
@@ -106,10 +108,20 @@
 </head>
 <body>
 
-    <div class="alert-modal-overlay" id="customAlert">
+    <div class="alert-modal-overlay" id="welcomeInfo">
         <div class="alert-modal-card">
             <i class="fas fa-bullhorn" style="font-size: 3.5rem; color: var(--secondary-color); margin-bottom: 15px;"></i>
-            <p style="font-weight: 800; color: #fff; font-size: 1.3rem; margin-bottom: 8px;">Aviso!</p>
+            <h2 style="color: #fff; margin-bottom: 10px;">Sextou no Jajá!</h2>
+            <p style="color: #bbb; margin-bottom: 20px; font-size: 0.9rem;">
+                Aproveite nossas promoções exclusivas de hoje! Pizza + Refri Grátis e Combo de Esfihas já disponíveis.
+            </p>
+            <button class="add-btn" style="width:100%; padding:15px; font-size:1rem;" onclick="closeWelcome()">VER CARDÁPIO</button>
+        </div>
+    </div>
+
+    <div class="alert-modal-overlay" id="customAlert">
+        <div class="alert-modal-card">
+            <i class="fas fa-info-circle" style="font-size: 3.5rem; color: var(--secondary-color); margin-bottom: 15px;"></i>
             <p id="alertMsg" style="color: #bbb; margin-bottom: 20px;">Mensagem.</p>
             <button class="add-btn" style="width:100%; padding:15px; font-size:1rem;" onclick="closeAlert()">ENTENDI</button>
         </div>
@@ -125,20 +137,20 @@
                 <span style="color:var(--secondary-color); font-weight:700; display:block; margin-bottom:8px; font-size:0.85rem;">
                     <i class="fa-solid fa-pizza-slice yellow-icon"></i> Pizzaria & Choperia
                 </span>
-                <div class="status-badge"><span id="status-dot" class="dot open"></span><span id="status-text">ABERTO AGORA</span></div>
+                <div class="status-badge"><span id="status-dot" class="dot open"></span><span id="status-text">ABERTO</span></div>
             </div>
         </div>
     </header>
 
     <section class="info-panel">
-        <div class="info-item"><i class="fas fa-star"></i><span>Aceitamos: Cartão, Dinheiro ou Pix!</span></div>
+        <div class="info-item"><i class="fas fa-star"></i><span>Aceitamos: Cartão de Crédito, Dinheiro ou Pix!</span></div>
         <div class="info-item"><i class="fas fa-clock"></i><span>Horário: Seg, Qua, Qui (18h-22:30h) | Sex-Dom (18h-23h)</span></div>
         <div class="info-item" style="color: #ff4757; font-weight: 700;"><i class="fas fa-calendar-xmark"></i><span>Não trabalhamos às terças-feiras</span></div>
     </section>
 
     <div class="promo-ticker">
         <div class="ticker-content">
-             QUARTA MALUCA: 15 ESFIHAS VARIADAS + REFRIGERANTE 2L POR APENAS R$ 36,99 • NOVIDADE: EXPERIMENTE A NOSSA EXCLUSIVA PIZZA PORÇÃO! • DOM JAJÁ •
+             SEXTOU! PROMOÇÃO DE PIZZA DO DIA + REFRI GRÁTIS POR R$ 42,99 • COMBO 15 ESFIHAS POR R$ 36,99 • BORDA DE CATUPIRY OU CHEDDAR GRÁTIS NA PROMOÇÃO •
         </div>
     </div>
 
@@ -157,9 +169,16 @@
             <div class="grid-container">
                 <div class="item-card" style="border: 2px solid var(--secondary-color);">
                     <div class="item-content">
-                        <p class="item-name">Combo 15 Esfihas + Refri</p>
-                        <p class="item-desc">2 Carne, 2 Queijo, 2 Lombo, 2 Calabresa, 2 Mista, 2 Milho, 3 Brigadeiro + Refri 2L.</p>
-                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 36,99</span><button class="add-btn" onclick="addToCartExtra('Combo 15 Esfihas + Refri', 36.99)">ADICIONAR</button></div>
+                        <p class="item-name">Sextou! Super Combo</p>
+                        <p class="item-desc"><b>Sabores:</b> 2 Queijos, Calabresa 2, Frango 2 ou Lombo 2.<br><b>Grátis:</b> Refrigerante 2L + Borda de Catupiry ou Cheddar.</p>
+                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 42,99</span><button class="add-btn" onclick="openPromoModal()">ESCOLHER SABOR</button></div>
+                    </div>
+                </div>
+                <div class="item-card" style="border: 2px solid var(--secondary-color);">
+                    <div class="item-content">
+                        <p class="item-name">COMBO DE ESFIHAS</p>
+                        <p class="item-desc">3 Carne, 3 Queijo, 3 Frango c/ Queijo, 3 Milho e 3 Brigadeiro.</p>
+                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 36,99</span><button class="add-btn" onclick="addToCartExtra('Combo 15 Esfihas Promo', 36.99)">ADICIONAR</button></div>
                     </div>
                 </div>
             </div>
@@ -194,22 +213,25 @@
             <div class="grid-container">
                 <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Gelada e refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 15)">ADICIONAR</button></div></div></div>
                 <div class="item-card"><div class="item-content"><p class="item-name">Guaraná 2L</p><p class="item-desc">Original Antarctica.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Guaraná 2L', 15)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor vibrante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor vibrante de laranja.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
                 <div class="item-card"><div class="item-content"><p class="item-name">Sprite 2L</p><p class="item-desc">Limão refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Sprite 2L', 15)">ADICIONAR</button></div></div></div>
             </div>
         </section>
     </main>
 
     <footer class="social-section">
+        <p class="social-title">Mídias Sociais</p>
         <img src="https://i.imgur.com/Z0xzbAm.jpg" alt="Logo" class="social-logo">
         <div class="social-links">
             <a href="https://www.instagram.com/domjajapizzariaechoperia" class="social-icon"><i class="fab fa-instagram"></i></a>
             <a href="https://www.facebook.com/share/1AQ4ULz7ye/" class="social-icon"><i class="fab fa-facebook-f"></i></a>
             <a href="https://wa.me/5514997212396" class="social-icon"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <p style="margin-top: 20px; font-weight: 700; font-size: 0.9rem;">Mídias Sociais</p>
-        <p style="margin-top: 10px; font-size: 0.6rem; color: #555;">DESENVOLVIDO POR DMT ™</p>
-        <p style="font-size: 0.5rem; color: #444; margin-top: 5px;">&copy; 2026 Dom Jajá - Todos os direitos reservados</p>
+        <div class="copyright">
+            <p><b>Dom Jajá - Pizzaria & Choperia</b></p>
+            <p>CODED BY <b>DMT ™</b></p>
+            <p>&copy; 2026 - Todos os direitos reservados.</p>
+        </div>
     </footer>
 
     <div class="cart-bar" id="cartBar">
@@ -222,6 +244,18 @@
             <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight:800;">TAMANHO</h2>
             <div id="size-options"></div>
             <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">CANCELAR</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="promoModal">
+        <div class="modal-content">
+            <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:10px; font-weight:800;">PROMOÇÃO R$ 42,99</h2>
+            <p style="text-align:center; font-size:0.8rem; color:#888; margin-bottom:20px;">Escolha o sabor da pizza G (Borda + Refri Grátis):</p>
+            <div class="size-option" onclick="addToCartExtra('PROMO: 2 Queijos (Borda+Refri)', 42.99); closeModals()">2 QUEIJOS</div>
+            <div class="size-option" onclick="addToCartExtra('PROMO: Calabresa 2 (Borda+Refri)', 42.99); closeModals()">CALABRESA 2</div>
+            <div class="size-option" onclick="addToCartExtra('PROMO: Frango 2 (Borda+Refri)', 42.99); closeModals()">FRANGO 2</div>
+            <div class="size-option" onclick="addToCartExtra('PROMO: Lombo 2 (Borda+Refri)', 42.99); closeModals()">LOMBO 2</div>
+            <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">VOLTAR</button>
         </div>
     </div>
 
@@ -239,7 +273,7 @@
             <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight:800;">RESUMO</h2>
             <div id="review-list" style="margin-bottom: 20px;"></div>
             <input type="text" id="cust-name" class="checkout-input" placeholder="Seu Nome">
-            <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço">
+            <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço Completo">
             <p style="text-align:center; font-weight:800; font-size:1.4rem; color:var(--accent-color); margin: 20px 0;">Total: <span id="final-total">R$ 0,00</span></p>
             <button id="btnFinalizar" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; width:100%; height: 55px;" onclick="finalizeOrder()">FINALIZAR PEDIDO</button>
             <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">VOLTAR</button>
@@ -341,7 +375,15 @@
                 const html = `<div class="item-card"><div class="item-content"><p class="item-name">${id}. ${p.name}</p><p class="item-desc">${p.desc}</p><div class="price-row"><span class="g-price">R$ ${p.g.toFixed(2)}</span><button class="add-btn" onclick="openSizeModal('${id}')">ADICIONAR</button></div></div></div>`;
                 if(grids[p.cat]) grids[p.cat].innerHTML += html;
             }
+            setTimeout(() => { document.getElementById('welcomeInfo').classList.add('active'); }, 600);
         }
+
+        function closeWelcome() {
+            document.getElementById('welcomeInfo').classList.remove('active');
+            setTimeout(() => { document.getElementById('welcomeInfo').style.display = 'none'; }, 400);
+        }
+
+        function openPromoModal() { closeModals(); document.getElementById('promoModal').style.display = 'flex'; }
 
         function openSizeModal(id) {
             closeModals();
@@ -376,7 +418,7 @@
         function addHalfPizza() {
             const p1 = productsData[selectedHalf[0]], p2 = productsData[selectedHalf[1]];
             cart.push({ name: `Meio ${p1.name} / Meio ${p2.name}`, size: 'Grande (G)', price: Math.max(p1.g, p2.g) });
-            updateCart(); closeModals(); showToast("Pizza Meio a Meio adicionada!");
+            updateCart(); closeModals(); showToast("Adicionado!");
         }
 
         function addToCart(id, size, price) {
@@ -415,11 +457,10 @@
         async function finalizeOrder() {
             const name = document.getElementById('cust-name').value;
             const addr = document.getElementById('cust-addr').value;
-            if(!name || !addr) return showAlert("Por favor, preencha nome e endereço.");
+            if(!name || !addr) return showAlert("Por favor, informe seu nome e endereço.");
 
             const btn = document.getElementById('btnFinalizar');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
+            btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
 
             const total = cart.reduce((t, i) => t + i.price, 0);
             const dadosPedido = {
@@ -437,14 +478,16 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(dadosPedido)
                 });
-
                 if (response.ok) {
-                    showToast("✅ PEDIDO ENVIADO!");
+                    showToast("PEDIDO ENVIADO!");
                     cart = []; updateCart();
-                    setTimeout(() => { closeModals(); showAlert("Pedido enviado com sucesso, logo entregaremos seu pedido!"); }, 1000);
+                    setTimeout(() => { closeModals(); showAlert("Recebemos seu pedido, aguarde o envio. . . Dom Jajá agradece a preferência!"); }, 800);
                 } else { throw new Error(); }
-            } catch (err) { showAlert("Erro ao conectar com o servidor. Verifique o console."); }
-            finally { btn.disabled = false; btn.innerHTML = 'FINALIZAR PEDIDO'; }
+            } catch (err) { 
+                let itemsStr = cart.map(i => `- ${i.name} (${i.size})`).join('%0A');
+                let zapMsg = `*PEDIDO DOM JAJÁ*%0A%0A*Nome:* ${name}%0A*End:* ${addr}%0A%0A*Itens:*%0A${itemsStr}%0A%0A*Total:* R$ ${total.toFixed(2)}`;
+                window.open(`https://wa.me/5514997212396?text=${zapMsg}`);
+            } finally { btn.disabled = false; btn.innerHTML = 'FINALIZAR PEDIDO'; }
         }
 
         function setActive(el) {
