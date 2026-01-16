@@ -22,189 +22,85 @@
             --shadow-lg: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* RESET & BASE */
         html { scroll-behavior: smooth; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-dark); color: var(--text-light); overflow-x: hidden; line-height: 1.5; padding-bottom: 100px; }
 
-        /* HEADER & CAPA ANIMADA */
-        .header-container { position: relative; height: 320px; overflow: hidden; }
-        
-        .cover-wrapper { 
-            position: absolute; 
-            top: 0; left: 0; width: 100%; height: 260px; 
-            overflow: hidden; z-index: 1;
-        }
-
+        /* HEADER */
+        .header-container { position: relative; height: 340px; overflow: hidden; }
+        .cover-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 260px; overflow: hidden; z-index: 1; }
         .cover-photo { 
             width: 100%; height: 100%; 
             background: linear-gradient(to bottom, rgba(0,0,0,0.3), var(--bg-dark)), url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80'); 
             background-size: cover; background-position: center;
             animation: pan-slow 25s infinite alternate linear;
         }
-
-        @keyframes pan-slow {
-            0% { transform: scale(1.1) translateX(0); }
-            100% { transform: scale(1.2) translateX(-3%); }
-        }
+        @keyframes pan-slow { 0% { transform: scale(1.1) translateX(0); } 100% { transform: scale(1.2) translateX(-3%); } }
 
         .profile-area { position: absolute; bottom: 10px; left: 20px; display: flex; align-items: flex-end; gap: 15px; width: calc(100% - 40px); z-index: 10; }
-        .profile-photo { 
-            width: 95px; height: 95px; border-radius: 24px; 
-            border: 3px solid var(--bg-dark); 
-            background: url('https://i.imgur.com/Z0xzbAm.jpg') center/cover; 
-            box-shadow: var(--shadow-lg);
-        }
-        
+        .profile-photo { width: 95px; height: 95px; border-radius: 24px; border: 3px solid var(--bg-dark); background: url('https://i.imgur.com/Z0xzbAm.jpg') center/cover; box-shadow: var(--shadow-lg); }
         .shop-info h1 { font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 2px; }
         .yellow-icon { color: var(--secondary-color); margin: 0 4px; font-size: 1rem; }
 
-        .status-badge { 
-            display: inline-flex; align-items: center; gap: 6px; 
-            font-size: 0.65rem; font-weight: 700; padding: 5px 12px; 
-            background: rgba(0,0,0,0.7); border-radius: 50px; 
-            border: 1px solid var(--glass-border); color: #fff; backdrop-filter: blur(8px);
-        }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 700; padding: 5px 12px; background: rgba(0,0,0,0.7); border-radius: 50px; border: 1px solid var(--glass-border); color: #fff; backdrop-filter: blur(8px); }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
         .dot.open { background: var(--status-open); box-shadow: 0 0 10px var(--status-open); animation: pulse 2s infinite; }
-        .dot.closed { background: var(--status-closed); }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
-        /* INFO BOX */
+        /* INFO PANEL */
         .info-panel { margin: 15px 20px; padding: 18px; background: rgba(255,255,255,0.04); border-radius: var(--border-radius); border: 1px solid var(--glass-border); display: grid; grid-template-columns: 1fr; gap: 12px; }
         .info-item { display: flex; align-items: center; gap: 12px; font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
         .info-item i { color: var(--secondary-color); font-size: 1rem; }
 
-        /* NAV CATEGORIES */
-        .categories { 
-            display: flex; overflow-x: auto; padding: 15px 20px; gap: 10px; 
-            position: sticky; top: 0; background: rgba(15,15,15,0.95); 
-            backdrop-filter: blur(15px); z-index: 100; 
-            border-bottom: 1px solid var(--glass-border); 
-            scrollbar-width: none;
-        }
-        .categories::-webkit-scrollbar { display: none; }
-        .category-pill { 
-            background: rgba(255,255,255,0.06); padding: 10px 20px; 
-            border-radius: 14px; white-space: nowrap; color: var(--text-muted); 
-            text-decoration: none; font-size: 0.85rem; font-weight: 600; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
-        }
-        .category-pill.active { background: var(--primary-color); color: #fff; border-color: rgba(255,255,255,0.1); transform: scale(1.05); }
-
-        /* PROMO TICKER */
+        /* TICKER */
         .promo-ticker { background: var(--secondary-color); color: #000; overflow: hidden; white-space: nowrap; padding: 8px 0; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
         .ticker-content { display: inline-block; animation: ticker 25s linear infinite; }
         @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* MENU GRID */
+        /* CATEGORIES */
+        .categories { display: flex; overflow-x: auto; padding: 15px 20px; gap: 10px; position: sticky; top: 0; background: rgba(15,15,15,0.95); backdrop-filter: blur(15px); z-index: 100; border-bottom: 1px solid var(--glass-border); scrollbar-width: none; }
+        .category-pill { background: rgba(255,255,255,0.06); padding: 10px 20px; border-radius: 14px; white-space: nowrap; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: 0.3s; border: 1px solid transparent; }
+        .category-pill.active { background: var(--primary-color); color: #fff; border-color: rgba(255,255,255,0.1); transform: scale(1.05); }
+
+        /* MENU SECTIONS */
         .menu-section { padding: 30px 20px; max-width: 1200px; margin: 0 auto; scroll-margin-top: 80px; }
         .section-title { font-size: 1.5rem; margin-bottom: 25px; color: #fff; font-weight: 800; display: flex; align-items: center; gap: 10px; }
         .section-title::after { content: ''; height: 3px; flex-grow: 1; background: linear-gradient(90deg, var(--secondary-color), transparent); border-radius: 2px; }
-        
         .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        
-        .item-card { 
-            background: var(--card-bg); border-radius: var(--border-radius); 
-            border: 1px solid var(--glass-border); backdrop-filter: blur(10px); 
-            transition: 0.3s; display: flex; flex-direction: column;
-            animation: fadeInUp 0.6s ease-out backwards;
-        }
+        .item-card { background: var(--card-bg); border-radius: var(--border-radius); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); transition: 0.3s; display: flex; flex-direction: column; animation: fadeInUp 0.6s ease-out backwards; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         .item-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .item-name { font-weight: 800; font-size: 1.05rem; color: #fff; margin-bottom: 6px; letter-spacing: -0.3px; }
+        .item-name { font-weight: 800; font-size: 1.05rem; color: #fff; margin-bottom: 6px; }
         .item-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; flex-grow: 1; }
         .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .g-price { font-size: 1.25rem; color: var(--accent-color); font-weight: 800; }
-        
-        .add-btn { 
-            background: var(--primary-color); color: white; border: none; 
-            padding: 10px 18px; border-radius: 12px; cursor: pointer; 
-            font-weight: 700; font-size: 0.75rem; transition: 0.2s;
-            box-shadow: 0 4px 15px rgba(165, 42, 26, 0.3);
-        }
-        .add-btn:active { transform: scale(0.95); }
+        .add-btn { background: var(--primary-color); color: white; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 0.75rem; }
+        .half-btn { background: linear-gradient(135deg, var(--secondary-color), #f39c12); color: #000; border: none; padding: 16px; border-radius: 18px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto 30px; width: 100%; max-width: 400px; font-size: 0.9rem; text-transform: uppercase; }
 
-        .half-btn { 
-            background: linear-gradient(135deg, var(--secondary-color), #f39c12); 
-            color: #000; border: none; padding: 16px; border-radius: 18px; 
-            font-weight: 800; cursor: pointer; display: flex; align-items: center; 
-            justify-content: center; gap: 10px; margin: 0 auto 30px; 
-            text-transform: uppercase; box-shadow: 0 10px 25px rgba(241, 196, 15, 0.2); 
-            width: 100%; max-width: 400px; font-size: 0.9rem;
-        }
-
-        /* ALERTA MODERNO */
-        .alert-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .alert-modal-card { background: #1a1a1a; border: 1px solid var(--secondary-color); border-radius: 28px; padding: 30px; width: 90%; max-width: 340px; text-align: center; transform: translateY(20px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .alert-modal-overlay.active .alert-modal-card { transform: translateY(0); }
-        .alert-icon { font-size: 3.5rem; color: var(--secondary-color); margin-bottom: 15px; }
-        .alert-title { font-weight: 800; color: #fff; font-size: 1.3rem; margin-bottom: 8px; }
-        .alert-btn { background: var(--secondary-color); color: #000; border: none; padding: 14px; border-radius: 16px; font-weight: 800; cursor: pointer; width: 100%; margin-top: 10px; }
-
-        /* MODAL FECHADO ESPECÍFICO */
-        .closed-modal-card { border-color: var(--status-closed) !important; }
-        .closed-icon { color: var(--status-closed) !important; }
-
-        /* FOOTER SOCIAL */
+        /* FOOTER */
         .social-section { padding: 60px 20px 40px; text-align: center; background: linear-gradient(to bottom, transparent, #050505); }
-        
-        .social-title-modern { 
-            font-size: 0.7rem; 
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            font-weight: 800; 
-            color: #fff; 
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            opacity: 0.8;
-        }
-        .social-title-modern::before, .social-title-modern::after {
-            content: '';
-            height: 1px;
-            width: 30px;
-            background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
-        }
-
-        .social-logo { width: 70px; height: 70px; border-radius: 20px; margin-bottom: 15px; border: 2px solid var(--secondary-color); padding: 2px; transition: 0.3s; }
-        .social-logo:hover { transform: rotate(5deg) scale(1.05); }
-        
-        .highlight-phrase { background: var(--secondary-color); color: #000; padding: 4px 12px; font-size: 0.75rem; font-weight: 800; border-radius: 6px; display: inline-block; margin-bottom: 20px; }
+        .social-logo { width: 70px; height: 70px; border-radius: 20px; margin-bottom: 15px; border: 2px solid var(--secondary-color); padding: 2px; }
         .social-links { display: flex; justify-content: center; gap: 15px; }
         .social-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: #fff; text-decoration: none; border: 1px solid var(--glass-border); transition: 0.3s; }
-        .social-icon:hover { background: var(--secondary-color); color: #000; transform: translateY(-5px); }
 
-        /* MODAIS */
+        /* MODALS */
         .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 2000; backdrop-filter: blur(20px); padding: 20px; }
         .modal-content { background: #121212; width: 100%; max-width: 440px; border-radius: 30px; padding: 25px; border: 1px solid var(--glass-border); max-height: 90vh; overflow-y: auto; }
-        
-        .size-option, .half-select-item { 
-            background: rgba(255,255,255,0.04); padding: 16px; border-radius: 16px; 
-            margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; 
-            align-items: center; border: 1px solid transparent; transition: 0.2s;
-        }
-        .size-option:active, .half-select-item.selected { border-color: var(--secondary-color); background: rgba(241,196,15,0.1); }
-
-        .checkout-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; color: #fff; border-radius: 14px; margin-bottom: 10px; font-size: 0.95rem; outline: none; }
-        .checkout-input:focus { border-color: var(--secondary-color); }
+        .size-option, .half-select-item { background: rgba(255,255,255,0.04); padding: 16px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
+        .half-select-item.selected { border-color: var(--secondary-color); background: rgba(241,196,15,0.1); }
+        .checkout-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; color: #fff; border-radius: 14px; margin-bottom: 10px; outline: none; }
 
         /* CART BAR */
-        .cart-bar { 
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(150px); 
-            width: calc(100% - 30px); max-width: 500px; background: var(--primary-color); 
-            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; 
-            border-radius: 22px; z-index: 1000; transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-        }
+        .cart-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(150px); width: calc(100% - 30px); max-width: 500px; background: var(--primary-color); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 22px; z-index: 1000; transition: 0.5s; box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
         .cart-bar.visible { transform: translateX(-50%) translateY(0); }
-        .checkout-btn-main { background: #fff; color: var(--primary-color); padding: 12px 20px; border-radius: 14px; font-weight: 800; border: none; cursor: pointer; font-size: 0.85rem; }
+        .checkout-btn-main { background: #fff; color: var(--primary-color); padding: 12px 20px; border-radius: 14px; font-weight: 800; border: none; cursor: pointer; }
 
-        .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--accent-color); color: #fff; padding: 12px 25px; border-radius: 50px; z-index: 9999; font-weight: 700; transition: 0.4s; font-size: 0.9rem; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        /* ALERTS */
+        .alert-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
+        .alert-modal-card { background: #1a1a1a; border: 1px solid var(--secondary-color); border-radius: 28px; padding: 30px; width: 90%; max-width: 340px; text-align: center; transform: translateY(20px); transition: 0.4s; }
+        .alert-modal-overlay.active { display: flex; }
+        .alert-modal-overlay.active .alert-modal-card { transform: translateY(0); }
+        .toast-box { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--accent-color); color: #fff; padding: 12px 25px; border-radius: 50px; z-index: 9999; font-weight: 700; transition: 0.4s; }
         .toast-box.active { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
@@ -212,69 +108,48 @@
 
     <div class="alert-modal-overlay" id="customAlert">
         <div class="alert-modal-card">
-            <i class="fas fa-bullhorn alert-icon"></i>
-            <p class="alert-title">Promoção do Dia!</p>
-            <p class="alert-message" id="alertMsg" style="color: #bbb; margin-bottom: 20px;">Mensagem.</p>
-            <button class="alert-btn" onclick="closeAlert()">ENTENDI</button>
+            <i class="fas fa-bullhorn" style="font-size: 3.5rem; color: var(--secondary-color); margin-bottom: 15px;"></i>
+            <p style="font-weight: 800; color: #fff; font-size: 1.3rem; margin-bottom: 8px;">Aviso!</p>
+            <p id="alertMsg" style="color: #bbb; margin-bottom: 20px;">Mensagem.</p>
+            <button class="add-btn" style="width:100%; padding:15px; font-size:1rem;" onclick="closeAlert()">ENTENDI</button>
         </div>
     </div>
-
-    <div class="alert-modal-overlay" id="closedAlert">
-        <div class="alert-modal-card closed-modal-card">
-            <i class="fas fa-moon alert-icon closed-icon"></i>
-            <p class="alert-title">Estamos Descansando!</p>
-            <p style="color: #bbb; margin-bottom: 20px; font-size: 0.9rem;">
-                No momento nossa cozinha está fechada. <br><br>
-                <b>Horário de Funcionamento:</b><br>
-                Seg, Qua e Qui: 18:00 às 22:30<br>
-                Sex a Dom: 18:00 às 23:00<br>
-                <span style="color: var(--status-closed)">(Terça-feira: Fechado)</span>
-            </p>
-            <button class="alert-btn" style="background: var(--status-closed); color: #fff;" onclick="closeClosedAlert()">VOLTAR AO CARDÁPIO</button>
-        </div>
-    </div>
-
     <div id="toast" class="toast-box">Adicionado!</div>
 
     <header class="header-container">
-        <div class="cover-wrapper">
-            <div class="cover-photo"></div>
-        </div>
+        <div class="cover-wrapper"><div class="cover-photo"></div></div>
         <div class="profile-area">
             <div class="profile-photo"></div>
             <div class="shop-info">
                 <h1>Dom Jajá</h1>
                 <span style="color:var(--secondary-color); font-weight:700; display:block; margin-bottom:8px; font-size:0.85rem;">
-                    <i class="fa-solid fa-pizza-slice yellow-icon"></i> Pizzaria & Choperia <i class="fa-solid fa-beer-mug-empty yellow-icon"></i>
+                    <i class="fa-solid fa-pizza-slice yellow-icon"></i> Pizzaria & Choperia
                 </span>
-                <div class="status-badge">
-                    <span id="status-dot" class="dot"></span>
-                    <span id="status-text">CARREGANDO...</span>
-                </div>
+                <div class="status-badge"><span id="status-dot" class="dot open"></span><span id="status-text">ABERTO AGORA</span></div>
             </div>
         </div>
     </header>
 
     <section class="info-panel">
-        <div class="info-item"><i class="fas fa-clock"></i><span>Seg, Qua e Qui: 18:00 às 22:30 | Sex a Dom: 18:00 às 23:00 (Terça Fechado)</span></div>
-        <div class="info-item"><i class="fas fa-motorcycle"></i><span>Entrega Rápida</span></div>
-        <div class="info-item"><i class="fas fa-fire"></i><span>Novidade: Pizza Porção Especial!</span></div>
+        <div class="info-item"><i class="fas fa-star"></i><span>Aceitamos: Cartão, Dinheiro ou Pix!</span></div>
+        <div class="info-item"><i class="fas fa-clock"></i><span>Horário: Seg, Qua, Qui (18h-22:30h) | Sex-Dom (18h-23h)</span></div>
+        <div class="info-item" style="color: #ff4757; font-weight: 700;"><i class="fas fa-calendar-xmark"></i><span>Não trabalhamos às terças-feiras</span></div>
     </section>
-
-    <nav class="categories">
-        <a href="#promocao" class="category-pill active">Promoção do Dia</a>
-        <a href="#salgadas" class="category-pill">Salgadas</a>
-        <a href="#porcao" class="category-pill">Pizza Porção</a>
-        <a href="#porcoes-gerais" class="category-pill">Porções</a>
-        <a href="#doces" class="category-pill">Doces</a>
-        <a href="#bebidas" class="category-pill">Bebidas</a>
-    </nav>
 
     <div class="promo-ticker">
         <div class="ticker-content">
-             QUARTA MALUCA: 15 ESFIHAS VARIADAS + REFRIGERANTE 2L POR APENAS R$ 36,99 • PEÇA AGORA • NOVIDADE: EXPERIMENTE A NOSSA EXCLUSIVA PIZZA PORÇÃO! • 
+             QUARTA MALUCA: 15 ESFIHAS VARIADAS + REFRIGERANTE 2L POR APENAS R$ 36,99 • NOVIDADE: EXPERIMENTE A NOSSA EXCLUSIVA PIZZA PORÇÃO! • DOM JAJÁ •
         </div>
     </div>
+
+    <nav class="categories">
+        <a href="#promocao" class="category-pill active" onclick="setActive(this)">Promoção</a>
+        <a href="#salgadas" class="category-pill" onclick="setActive(this)">Salgadas</a>
+        <a href="#porcao" class="category-pill" onclick="setActive(this)">Pizza Porção</a>
+        <a href="#porcoes-gerais" class="category-pill" onclick="setActive(this)">Porções</a>
+        <a href="#doces" class="category-pill" onclick="setActive(this)">Doces</a>
+        <a href="#bebidas" class="category-pill" onclick="setActive(this)">Bebidas</a>
+    </nav>
 
     <main>
         <section class="menu-section" id="promocao">
@@ -283,11 +158,8 @@
                 <div class="item-card" style="border: 2px solid var(--secondary-color);">
                     <div class="item-content">
                         <p class="item-name">Combo 15 Esfihas + Refri</p>
-                        <p class="item-desc">Combo Quarta Maluca: 2 Carne, 2 Queijo, 2 Lombo c/ Queijo, 2 Calabresa c/ Queijo, 2 Mista, 2 Queijo c/ Milho, 3 Brigadeiro + Refri 2L Grátis!</p>
-                        <div class="price-row">
-                            <span class="g-price" style="color: var(--secondary-color)">R$ 36,99</span>
-                            <button class="add-btn" onclick="addToCartExtra('Combo 15 Esfihas + Refri', 36.99)">ADICIONAR</button>
-                        </div>
+                        <p class="item-desc">2 Carne, 2 Queijo, 2 Lombo, 2 Calabresa, 2 Mista, 2 Milho, 3 Brigadeiro + Refri 2L.</p>
+                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 36,99</span><button class="add-btn" onclick="addToCartExtra('Combo 15 Esfihas + Refri', 36.99)">ADICIONAR</button></div>
                     </div>
                 </div>
             </div>
@@ -295,9 +167,7 @@
 
         <section class="menu-section" id="salgadas">
             <h2 class="section-title">Pizzas Salgadas</h2>
-            <button class="half-btn" onclick="openHalfModal()">
-                <i class="fas fa-wand-magic-sparkles"></i> Montar Meio a Meio (G)
-            </button>
+            <button class="half-btn" onclick="openHalfModal()"><i class="fas fa-wand-magic-sparkles"></i> Montar Meio a Meio (G)</button>
             <div class="grid-container" id="grid-salgadas"></div>
         </section>
 
@@ -309,13 +179,8 @@
         <section class="menu-section" id="porcoes-gerais">
             <h2 class="section-title">Porções</h2>
             <div class="grid-container">
-                <div class="item-card"><div class="item-content"><p class="item-name">Batata Simples</p><p class="item-desc">Porção generosa de batata frita crocante.</p><div class="price-row"><span class="g-price">R$ 30,00</span><button class="add-btn" onclick="addToCartExtra('Batata Simples', 30)">ADICIONAR</button></div></div></div>
                 <div class="item-card"><div class="item-content"><p class="item-name">Batata Completa</p><p class="item-desc">Batata frita com cheddar e bacon.</p><div class="price-row"><span class="g-price">R$ 50,00</span><button class="add-btn" onclick="addToCartExtra('Batata Completa', 50)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Porção Mista</p><p class="item-desc">Mix de petiscos variados.</p><div class="price-row"><span class="g-price">R$ 60,00</span><button class="add-btn" onclick="addToCartExtra('Porção Mista', 60)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Frango Frito</p><p class="item-desc">Pedaços suculentos de frango frito.</p><div class="price-row"><span class="g-price">R$ 48,00</span><button class="add-btn" onclick="addToCartExtra('Frango Frito', 48)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Calabresa</p><p class="item-desc">Calabresa acebolada frita.</p><div class="price-row"><span class="g-price">R$ 45,00</span><button class="add-btn" onclick="addToCartExtra('Calabresa', 45)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Contra Filé Acebolado</p><p class="item-desc">Tiras de contra filé com cebola.</p><div class="price-row"><span class="g-price">R$ 80,00</span><button class="add-btn" onclick="addToCartExtra('Contra Filé Acebolado', 80)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Contra Filé aos 2 Queijos</p><p class="item-desc">Contra filé coberto com muçarela e catupiry.</p><div class="price-row"><span class="g-price">R$ 110,00</span><button class="add-btn" onclick="addToCartExtra('Contra Filé aos 2 Queijos', 110)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Calabresa Acebolada</p><p class="item-desc">Porção de calabresa frita com cebola.</p><div class="price-row"><span class="g-price">R$ 45,00</span><button class="add-btn" onclick="addToCartExtra('Calabresa Acebolada', 45)">ADICIONAR</button></div></div></div>
             </div>
         </section>
 
@@ -327,69 +192,68 @@
         <section class="menu-section" id="bebidas">
             <h2 class="section-title">Bebidas</h2>
             <div class="grid-container">
-                <div class="item-card"><div class="item-content"><p class="item-name">Refrigerante Lata</p><p class="item-desc">350ml bem gelado.</p><div class="price-row"><span class="g-price">R$ 6,00</span><button class="add-btn" onclick="addToCartExtra('Refrigerante Lata', 6)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Acompanhamento indispensável bem gelada.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 15)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Sprite 2L</p><p class="item-desc">Refrescante sabor limão.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Sprite 2L', 15)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor inconfundível de laranja.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Guaraná Antártica 2L</p><p class="item-desc">O sabor original da Amazônia.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Guaraná Antártica 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Gelada e refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Guaraná 2L</p><p class="item-desc">Original Antarctica.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Guaraná 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor vibrante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Sprite 2L</p><p class="item-desc">Limão refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Sprite 2L', 15)">ADICIONAR</button></div></div></div>
             </div>
         </section>
     </main>
 
     <footer class="social-section">
-        <h4 class="social-title-modern">Mídias Sociais</h4>
-        <img src="https://i.imgur.com/Z0xzbAm.jpg" alt="Dom Jajá Logo" class="social-logo">
-        <h3 style="font-weight: 800; margin-bottom: 10px; font-size: 1.2rem;">Siga a Dom Jajá</h3>
-        <div><span class="highlight-phrase">As melhores pizzas da região!</span></div>
+        <img src="https://i.imgur.com/Z0xzbAm.jpg" alt="Logo" class="social-logo">
         <div class="social-links">
-            <a href="https://www.instagram.com/domjajapizzariaechoperia?igsh=ZGk3b3RyN3pzOW1k" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.instagram.com/domjajapizzariaechoperia" class="social-icon"><i class="fab fa-instagram"></i></a>
             <a href="https://www.facebook.com/share/1AQ4ULz7ye/" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://wa.me/+5514997212396" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://wa.me/5514997212396" class="social-icon"><i class="fab fa-whatsapp"></i></a>
         </div>
-        <p style="margin-top: 30px; font-size: 0.65rem; color: #555; letter-spacing: 2px;">DESENVOLVIDO POR DMT ™</p>
+        <p style="margin-top: 20px; font-weight: 700; font-size: 0.9rem;">Mídias Sociais</p>
+        <p style="margin-top: 10px; font-size: 0.6rem; color: #555;">DESENVOLVIDO POR DMT ™</p>
+        <p style="font-size: 0.5rem; color: #444; margin-top: 5px;">&copy; 2026 Dom Jajá - Todos os direitos reservados</p>
     </footer>
 
     <div class="cart-bar" id="cartBar">
-        <div><p id="cart-count" style="font-size: 0.7rem; font-weight: 700; opacity: 0.9;">0 ITENS</p><p id="cart-total" style="color:var(--secondary-color); font-weight:800; font-size:1.3rem;">R$ 0,00</p></div>
+        <div><p id="cart-count" style="font-size:0.7rem; font-weight:700;">0 ITENS</p><p id="cart-total" style="color:var(--secondary-color); font-weight:800; font-size:1.3rem;">R$ 0,00</p></div>
         <button class="checkout-btn-main" onclick="openCheckout()">FECHAR PEDIDO</button>
     </div>
 
     <div class="modal-overlay" id="sizeModal">
         <div class="modal-content">
-            <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight: 800;">ESCOLHA O TAMANHO</h2>
+            <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight:800;">TAMANHO</h2>
             <div id="size-options"></div>
-            <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px; font-weight: 700;" onclick="closeModals()">CANCELAR</button>
+            <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">CANCELAR</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="halfModal">
         <div class="modal-content">
-            <h3 style="text-align:center; color: var(--secondary-color); font-weight: 800;">MEIO A MEIO (G)</h3>
-            <p style="text-align:center; font-size:0.75rem; color:#888; margin-bottom:20px;">Selecione exatamente 2 sabores.</p>
-            <div id="half-list" style="max-height: 350px; overflow-y: auto; padding-right:5px;"></div>
-            <button id="confirmHalfBtn" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; width:100%; margin-top:20px; opacity:0.5; height: 50px;" disabled onclick="addHalfPizza()">ADICIONAR AO CARRINHO</button>
+            <h3 style="text-align:center; color: var(--secondary-color); font-weight:800; margin-bottom:15px;">MEIO A MEIO (G)</h3>
+            <div id="half-list" style="max-height: 350px; overflow-y: auto;"></div>
+            <button id="confirmHalfBtn" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; width:100%; margin-top:20px; opacity:0.5;" disabled onclick="addHalfPizza()">ADICIONAR AO CARRINHO</button>
             <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">VOLTAR</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="checkoutModal">
         <div class="modal-content">
-            <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight: 800;">RESUMO</h2>
+            <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight:800;">RESUMO</h2>
             <div id="review-list" style="margin-bottom: 20px;"></div>
-            <input type="text" id="cust-name" class="checkout-input" placeholder="Seu Nome Completo">
-            <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço, Número e Bairro">
+            <input type="text" id="cust-name" class="checkout-input" placeholder="Seu Nome">
+            <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço">
             <p style="text-align:center; font-weight:800; font-size:1.4rem; color:var(--accent-color); margin: 20px 0;">Total: <span id="final-total">R$ 0,00</span></p>
-            <button class="checkout-btn-main" style="background:var(--accent-color); color:#fff; width:100%; height: 55px; font-size: 1rem;" onclick="sendWhatsApp()">FINALIZAR NO WHATSAPP <i class="fab fa-whatsapp"></i></button>
-            <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">CONTINUAR COMPRANDO</button>
+            <button id="btnFinalizar" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; width:100%; height: 55px;" onclick="finalizeOrder()">FINALIZAR PEDIDO</button>
+            <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">VOLTAR</button>
         </div>
     </div>
 
     <script>
+        const API_URL = "https://laden-ide-illustrations-began.trycloudflare.com/enviar-pedido";
+
         const productsData = {
-            1: { name: "A Moda da Casa", desc: "Calabresa fatiada, catupiry, tomate, milho e bacon.", p: 36, g: 46, cat: "salgada" },
+            1: { name: "A Moda da Casa", desc: "Calabresa, catupiry, tomate, milho e bacon.", p: 36, g: 46, cat: "salgada" },
             2: { name: "Moda do Cheff", desc: "Muçarela, catupiry e peperoni.", p: 37, g: 47, cat: "salgada" },
             3: { name: "Moda do Cliente", desc: "Escolha até 5 tipos de ingredientes.", p: 43, g: 56, cat: "salgada" },
-            4: { name: "Moda do Jajá", desc: "Muçarela com catupiry e rolinhos de presunto e queijo.", p: 35, g: 45, cat: "salgada" },
+            4: { name: "Moda do Jajá", desc: "Muçarela, catupiry e rolinhos de presunto/queijo.", p: 35, g: 45, cat: "salgada" },
             5: { name: "Alho", desc: "Alho granulado, muçarela e tomate.", p: 33, g: 42, cat: "salgada" },
             6: { name: "Aliche", desc: "Filé de anchovas, tomate e muçarela.", p: 35, g: 44, cat: "salgada" },
             7: { name: "Atum I", desc: "Atum, azeite e cebola.", p: 35, g: 44, cat: "salgada" },
@@ -408,136 +272,81 @@
             20: { name: "Carioca", desc: "Calabresa moída, muçarela e azeitona.", p: 27, g: 35, cat: "salgada" },
             21: { name: "Cowboy", desc: "Costela, catupiry, muçarela, tomate e pimentão.", p: 40, g: 53, cat: "salgada" },
             22: { name: "Crocante", desc: "Muçarela, catupiry, batata palha.", p: 34, g: 43, cat: "salgada" },
-            23: { name: "CQ Sabe", desc: "Muçarela, brócolis, palmito, catupiry, alho granulado e tomate seco.", p: 37, g: 47, cat: "salgada" },
+            23: { name: "CQ Sabe", desc: "Muçarela, brócolis, palmito, catupiry e tomate seco.", p: 37, g: 47, cat: "salgada" },
             24: { name: "Dois Queijos", desc: "Muçarela e catupiry.", p: 34, g: 42, cat: "salgada" },
-            25: { name: "Executiva", desc: "Muçarela, provolone, calabresa, catupiry e milho.", p: 37, g: 47, cat: "salgada" },
+            25: { name: "Executiva", desc: "Muçarela, provolone, calabresa e catupiry.", p: 37, g: 47, cat: "salgada" },
             26: { name: "Florentina", desc: "Frango, catupiry, cheddar e batata palha.", p: 36, g: 46, cat: "salgada" },
             27: { name: "Florenza", desc: "Calabresa, bacon, palmito e tomate.", p: 36, g: 46, cat: "salgada" },
             28: { name: "Frango I", desc: "Frango e cebola.", p: 27, g: 35, cat: "salgada" },
             29: { name: "Frango II", desc: "Frango e mussarela.", p: 33, g: 43, cat: "salgada" },
             30: { name: "Frango III", desc: "Frango, catupiry ou cheddar.", p: 35, g: 45, cat: "salgada" },
             31: { name: "Hambúrguer", desc: "Muçarela, hambúrguer, catupiry e tomate.", p: 39, g: 51, cat: "salgada" },
-            32: { name: "Hambúrguer de Picanha", desc: "Muçarela, hambúrguer picanha, cheddar e catupiry.", p: 45, g: 55, cat: "salgada" },
-            33: { name: "Hotdog", desc: "Salsicha, mostarda, ketchup, maionese, muçarela e batata palha.", p: 33, g: 43, cat: "salgada" },
+            32: { name: "Hambúrguer de Picanha", desc: "Hambúrguer picanha, cheddar e catupiry.", p: 45, g: 55, cat: "salgada" },
+            33: { name: "Hotdog", desc: "Salsicha, mostarda, ketchup e batata palha.", p: 33, g: 43, cat: "salgada" },
             34: { name: "Jardineira", desc: "Muçarela, milho, ervilha, bacon e cebola.", p: 35, g: 45, cat: "salgada" },
             35: { name: "Lombo I", desc: "Lombo e muçarela.", p: 33, g: 43, cat: "salgada" },
             36: { name: "Lombo II", desc: "Lombo, catupiry ou cheddar e muçarela.", p: 35, g: 45, cat: "salgada" },
             37: { name: "Marguerita", desc: "Muçarela, tomate, parmesão e manjericão.", p: 31, g: 41, cat: "salgada" },
             38: { name: "Milho I", desc: "Milho e muçarela.", p: 27, g: 35, cat: "salgada" },
-            39: { name: "Milho II", desc: "Milho, catupiry ou cheddar e muçarela.", p: 34, g: 44, cat: "salgada" },
-            40: { name: "Mineira", desc: "Calabresa, catupiry alho granulado e batata palha.", p: 35, g: 45, cat: "salgada" },
+            39: { name: "Milho II", desc: "Milho, catupiry e muçarela.", p: 34, g: 44, cat: "salgada" },
+            40: { name: "Mineira", desc: "Calabresa, catupiry e batata palha.", p: 35, g: 45, cat: "salgada" },
             41: { name: "Muçarela", desc: "Queijo muçarela e tomate.", p: 27, g: 35, cat: "salgada" },
             42: { name: "Namorados", desc: "Muçarela, catupiry e palmito.", p: 37, g: 47, cat: "salgada" },
-            43: { name: "Nordestina", desc: "Muçarela, carne seca, catupiry e tomate.", p: 40, g: 53, cat: "salgada" },
-            44: { name: "Original", desc: "Molho de tomate extra, muçarela, catupiry e tomate.", p: 33, g: 43, cat: "salgada" },
+            43: { name: "Nordestina", desc: "Carne seca, catupiry e tomate.", p: 40, g: 53, cat: "salgada" },
+            44: { name: "Original", desc: "Muçarela, catupiry e tomate.", p: 33, g: 43, cat: "salgada" },
             45: { name: "Palmito", desc: "Muçarela e palmito.", p: 34, g: 44, cat: "salgada" },
             46: { name: "Paulista", desc: "Muçarela, catupiry e peito de peru.", p: 37, g: 47, cat: "salgada" },
             47: { name: "Peperoni", desc: "Muçarela e peperoni.", p: 35, g: 45, cat: "salgada" },
-            48: { name: "Pernil ao Barbecue", desc: "Muçarela, pernil, catupiry e barbecue.", p: 39, g: 53, cat: "salgada" },
-            49: { name: "Portuguesa I", desc: "Muçarela, presunto, ervilha, ovo e cebola.", p: 35, g: 45, cat: "salgada" },
-            50: { name: "Portuguesa II", desc: "Muçarela, presunto, ovo, ervilha, palmito e catupiry.", p: 37, g: 47, cat: "salgada" },
-            51: { name: "Predileta", desc: "Palmito, champignons, muçarela e tomate seco.", p: 37, g: 47, cat: "salgada" },
+            48: { name: "Pernil ao Barbecue", desc: "Pernil, catupiry e barbecue.", p: 39, g: 53, cat: "salgada" },
+            49: { name: "Portuguesa I", desc: "Muçarela, presunto, ovo e cebola.", p: 35, g: 45, cat: "salgada" },
+            50: { name: "Portuguesa II", desc: "Presunto, ovo, palmito e catupiry.", p: 37, g: 47, cat: "salgada" },
+            51: { name: "Predileta", desc: "Palmito, champignons e tomate seco.", p: 37, g: 47, cat: "salgada" },
             52: { name: "Quatro Queijos", desc: "Muçarela, catupiry, provolone e gorgonzola.", p: 37, g: 47, cat: "salgada" },
-            53: { name: "Romana", desc: "Muçarela, aliche, parmesão e tomate.", p: 35, g: 44, cat: "salgada" },
+            53: { name: "Romana", desc: "Muçarela, aliche e parmesão.", p: 35, g: 44, cat: "salgada" },
             54: { name: "Salame", desc: "Muçarela e salame.", p: 34, g: 44, cat: "salgada" },
             55: { name: "Sertaneja", desc: "Muçarela, milho, palmito e bacon.", p: 35, g: 45, cat: "salgada" },
-            56: { name: "Siciliana", desc: "Muçarela, calabresa, champignon e bacon.", p: 35, g: 45, cat: "salgada" },
-            57: { name: "Strogonoff de Frango", desc: "Strogonoff, champignons, muçarela e batata palha.", p: 38, g: 48, cat: "salgada" },
-            58: { name: "Tanto Faz", desc: "Presunto, catupiry, batata palha e muçarela.", p: 34, g: 44, cat: "salgada" },
+            56: { name: "Siciliana", desc: "Muçarela, calabresa e champignon.", p: 35, g: 45, cat: "salgada" },
+            57: { name: "Strogonoff de Frango", desc: "Strogonoff, muçarela e batata palha.", p: 38, g: 48, cat: "salgada" },
+            58: { name: "Tanto Faz", desc: "Presunto, catupiry e batata palha.", p: 34, g: 44, cat: "salgada" },
             59: { name: "Tarantela", desc: "Muçarela, tomate seco e catupiry.", p: 34, g: 44, cat: "salgada" },
-            60: { name: "Vegetariana", desc: "Brócolis, milho, tomate, ervilha, palmito e muçarela.", p: 34, g: 44, cat: "salgada" },
-            61: { name: "Pizza Porção", desc: "Borda de Calabresa ou Frango, com catupiry ou cheddar e porção de batata com cheddar, catupiry e bacon.", p: 0, g: 55, cat: "porcao" },
+            60: { name: "Vegetariana", desc: "Brócolis, milho, palmito e muçarela.", p: 34, g: 44, cat: "salgada" },
+            61: { name: "Pizza Porção", desc: "Borda recheada + Batata com bacon.", p: 0, g: 55, cat: "porcao" },
             62: { name: "Banana", desc: "Banana, canela e leite condensado.", p: 33, g: 41, cat: "doce" },
             63: { name: "Banana Nevada", desc: "Chocolate branco com banana.", p: 39, g: 49, cat: "doce" },
-            64: { name: "Beijinho", desc: "Leite condensado coberto com coco ralado.", p: 36, g: 44, cat: "doce" },
+            64: { name: "Beijinho", desc: "Leite condensado e coco ralado.", p: 36, g: 44, cat: "doce" },
             65: { name: "Bis", desc: "Chocolate ao leite e bis.", p: 37, g: 47, cat: "doce" },
             66: { name: "Brigadeiro", desc: "Chocolate ao leite e granulado.", p: 34, g: 44, cat: "doce" },
-            67: { name: "Calypso", desc: "Chocolate ao leite, chocolate branco.", p: 37, g: 47, cat: "doce" },
-            68: { name: "Calypso c/ Morango", desc: "Chocolate ao leite, chocolate branco e morango.", p: 40, g: 53, cat: "doce" },
-            69: { name: "Doce de Leite", desc: "Doce de leite e coco ralado.", p: 33, g: 43, cat: "doce" },
-            70: { name: "Frozen", desc: "Chocolate ao leite com bolas de sorvete sabor creme.", p: 40, g: 53, cat: "doce" },
-            71: { name: "KitKat", desc: "Chocolate ao leite, KitKat e morango.", p: 37, g: 47, cat: "doce" },
-            72: { name: "M&M", desc: "Chocolate ao leite e confete de chocolate.", p: 37, g: 47, cat: "doce" },
-            73: { name: "Prestígio", desc: "Chocolate ao leite e coco ralado.", p: 34, g: 44, cat: "doce" },
+            67: { name: "Calypso", desc: "Chocolate ao leite e chocolate branco.", p: 37, g: 47, cat: "doce" },
+            68: { name: "Calypso c/ Morango", desc: "Chocolate misto e morango.", p: 40, g: 53, cat: "doce" },
+            69: { name: "Doce de Leite", desc: "Doce de leite e coco.", p: 33, g: 43, cat: "doce" },
+            70: { name: "Frozen", desc: "Chocolate e sorvete de creme.", p: 40, g: 53, cat: "doce" },
+            71: { name: "KitKat", desc: "Chocolate e KitKat.", p: 37, g: 47, cat: "doce" },
+            72: { name: "M&M", desc: "Chocolate e confete.", p: 37, g: 47, cat: "doce" },
+            73: { name: "Prestígio", desc: "Chocolate e coco ralado.", p: 34, g: 44, cat: "doce" },
             74: { name: "Romeu e Julieta", desc: "Goiabada e muçarela.", p: 33, g: 41, cat: "doce" },
             75: { name: "Sensação", desc: "Chocolate ao leite e morango.", p: 37, g: 47, cat: "doce" }
         };
 
         let cart = [];
         let selectedHalf = [];
-        let isShopOpen = false; // Variável global para controle de trava
-
-        function showAlert(msg) {
-            document.getElementById('alertMsg').innerText = msg;
-            const overlay = document.getElementById('customAlert');
-            overlay.style.display = 'flex';
-            setTimeout(() => overlay.classList.add('active'), 10);
-        }
-
-        function closeAlert() {
-            const overlay = document.getElementById('customAlert');
-            overlay.classList.remove('active');
-            setTimeout(() => overlay.style.display = 'none', 300);
-        }
-
-        // Funções para controle do modal de fechado
-        function showClosedAlert() {
-            const overlay = document.getElementById('closedAlert');
-            overlay.style.display = 'flex';
-            setTimeout(() => overlay.classList.add('active'), 10);
-        }
-
-        function closeClosedAlert() {
-            const overlay = document.getElementById('closedAlert');
-            overlay.classList.remove('active');
-            setTimeout(() => overlay.style.display = 'none', 300);
-        }
 
         function renderMenu() {
-            const grids = { salgada: document.getElementById('grid-salgadas'), doce: document.getElementById('grid-doces'), porcao: document.getElementById('grid-porcao') };
+            const grids = { 
+                salgada: document.getElementById('grid-salgadas'), 
+                doce: document.getElementById('grid-doces'), 
+                porcao: document.getElementById('grid-porcao') 
+            };
             for (let id in productsData) {
                 const p = productsData[id];
-                const html = `<div class="item-card"><div class="item-content"><p class="item-name">${id}. ${p.name}</p><p class="item-desc">${p.desc}</p><div class="price-row"><span class="g-price">R$ ${p.g.toFixed(2)}</span><button class="add-btn" onclick="openSizeModal('${id}')">ESCOLHER</button></div></div></div>`;
+                const html = `<div class="item-card"><div class="item-content"><p class="item-name">${id}. ${p.name}</p><p class="item-desc">${p.desc}</p><div class="price-row"><span class="g-price">R$ ${p.g.toFixed(2)}</span><button class="add-btn" onclick="openSizeModal('${id}')">ADICIONAR</button></div></div></div>`;
                 if(grids[p.cat]) grids[p.cat].innerHTML += html;
             }
         }
 
-        function updateStatus() {
-            const now = new Date();
-            const day = now.getDay(); 
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const currentTime = hours + (minutes/60);
-            
-            let isOpen = false;
-
-            if ([1, 3, 4].includes(day)) {
-                if (currentTime >= 18.0 && currentTime <= 22.5) {
-                    isOpen = true;
-                }
-            } 
-            else if ([5, 6, 0].includes(day)) {
-                if (currentTime >= 18.0 && currentTime <= 23.0) {
-                    isOpen = true;
-                }
-            }
-
-            isShopOpen = isOpen; // Atualiza a trava global
-
-            document.getElementById('status-dot').className = isOpen ? 'dot open' : 'dot closed';
-            document.getElementById('status-text').innerText = isOpen ? 'ABERTO AGORA' : 'FECHADO AGORA';
-
-            if(day === 3 && isOpen) {
-                showAlert("HOJE É QUARTA MALUCA: 15 Esfihas variadas + Refri 2L por apenas R$ 36,99! Aproveite!");
-            }
-        }
-
         function openSizeModal(id) {
-            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
-            
             closeModals();
             const p = productsData[id];
-            if(p.p === 0) { addToCart(id, 'Unico', p.g); return; }
+            if(p.p === 0) { addToCart(id, 'Único', p.g); return; }
             document.getElementById('size-options').innerHTML = `
                 <div class="size-option" onclick="addToCart('${id}', 'Pequena', ${p.p})"><span>Pequena (P)</span><b>R$ ${p.p.toFixed(2)}</b></div>
                 <div class="size-option" onclick="addToCart('${id}', 'Grande', ${p.g})"><span>Grande (G)</span><b>R$ ${p.g.toFixed(2)}</b></div>`;
@@ -545,8 +354,6 @@
         }
 
         function openHalfModal() {
-            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
-
             closeModals();
             const list = document.getElementById('half-list'); list.innerHTML = ''; selectedHalf = [];
             for (let id in productsData) {
@@ -555,8 +362,6 @@
                 }
             }
             document.getElementById('halfModal').style.display = 'flex';
-            const btn = document.getElementById('confirmHalfBtn');
-            btn.disabled = true; btn.style.opacity = 0.5;
         }
 
         function toggleHalf(id) {
@@ -569,70 +374,90 @@
         }
 
         function addHalfPizza() {
-            if(selectedHalf.length === 2) {
-                const p1 = productsData[selectedHalf[0]], p2 = productsData[selectedHalf[1]];
-                cart.push({ name: `Meio ${p1.name} / Meio ${p2.name}`, size: 'G', price: Math.max(p1.g, p2.g) });
-                updateCart(); closeModals(); showToast("Pizza meio a meio adicionada!");
-            }
+            const p1 = productsData[selectedHalf[0]], p2 = productsData[selectedHalf[1]];
+            cart.push({ name: `Meio ${p1.name} / Meio ${p2.name}`, size: 'Grande (G)', price: Math.max(p1.g, p2.g) });
+            updateCart(); closeModals(); showToast("Pizza Meio a Meio adicionada!");
         }
 
         function addToCart(id, size, price) {
-            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
-            
             cart.push({ name: productsData[id].name, size: size, price: price });
-            updateCart(); closeModals(); showToast("Adicionado com sucesso!");
+            updateCart(); closeModals(); showToast("Adicionado!");
         }
 
         function addToCartExtra(name, price) {
-            if(!isShopOpen) return showClosedAlert(); // Trava de segurança
-
-            cart.push({ name: name, size: 'Un', price: price });
-            updateCart(); showToast(`${name} adicionado!`);
+            cart.push({ name: name, size: 'Un.', price: price });
+            updateCart(); showToast("Adicionado!");
         }
 
         function updateCart() {
             let total = 0; cart.forEach(i => total += i.price);
             document.getElementById('cartBar').classList.toggle('visible', cart.length > 0);
-            document.getElementById('cart-count').innerText = `${cart.length} ${cart.length === 1 ? 'ITEM' : 'ITENS'}`;
+            document.getElementById('cart-count').innerText = `${cart.length} ITENS NO CARRINHO`;
             document.getElementById('cart-total').innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
-            document.getElementById('final-total').innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
         }
 
         function openCheckout() {
-            closeModals();
             const list = document.getElementById('review-list'); list.innerHTML = '';
+            let total = 0;
             cart.forEach((it, idx) => {
-                list.innerHTML += `<div class="review-item" style="border-bottom:1px solid rgba(255,255,255,0.05); padding:15px 0;"><div><p style="font-weight:700; font-size:0.95rem;">${it.name}</p><p style="font-size:0.75rem; color:#666;">Tamanho: ${it.size}</p></div><div style="display:flex; align-items:center; gap:15px;"><span style="color:var(--accent-color); font-weight:800;">R$ ${it.price.toFixed(2)}</span><i class="fas fa-trash-can" onclick="removeItem(${idx})" style="color:#ff4757; cursor:pointer; font-size:1.1rem;"></i></div></div>`;
+                total += it.price;
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #222;">
+                    <div style="font-size:0.85rem;"><p style="font-weight:700;">${it.name}</p><p style="color:#888; font-size:0.7rem;">${it.size}</p></div>
+                    <div style="display:flex; align-items:center; gap:12px;"><span>R$ ${it.price.toFixed(2)}</span><i class="fas fa-trash-alt" onclick="removeItem(${idx})" style="color:#ff4757; cursor:pointer;"></i></div>
+                </div>`;
             });
+            document.getElementById('final-total').innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
             document.getElementById('checkoutModal').style.display = 'flex';
         }
 
         function removeItem(idx) { cart.splice(idx,1); updateCart(); if(cart.length===0) closeModals(); else openCheckout(); }
 
-        function sendWhatsApp() {
+        async function finalizeOrder() {
             const name = document.getElementById('cust-name').value;
-            const address = document.getElementById('cust-addr').value;
-            if(!name || !address) return showAlert("Por favor, preencha nome e endereço para entrega!");
+            const addr = document.getElementById('cust-addr').value;
+            if(!name || !addr) return showAlert("Por favor, preencha nome e endereço.");
 
-            let total = 0;
-            let itemsText = "";
-            cart.forEach(item => {
-                itemsText += `• *${item.name}* (${item.size}) - R$ ${item.price.toFixed(2)}\n`;
-                total += item.price;
-            });
+            const btn = document.getElementById('btnFinalizar');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
 
-            const message = `*NOVO PEDIDO - DOM JAJÁ*\n\n👤 *Cliente:* ${name}\n📍 *Endereço:* ${address}\n\n🛒 *Itens:*\n${itemsText}\n💰 *Total:* R$ ${total.toFixed(2).replace('.',',')}\n\n_Pedido enviado via Cardápio Digital_`;
-            window.open(`https://wa.me/5514997212396?text=${encodeURIComponent(message)}`);
+            const total = cart.reduce((t, i) => t + i.price, 0);
+            const dadosPedido = {
+                id: Date.now(),
+                cliente: name,
+                endereco: addr,
+                horario: new Date().toLocaleTimeString('pt-BR'),
+                itens: cart.map(i => ({ name: i.name, tamanho: i.size, preco: i.price })),
+                total: total
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosPedido)
+                });
+
+                if (response.ok) {
+                    showToast("✅ PEDIDO ENVIADO!");
+                    cart = []; updateCart();
+                    setTimeout(() => { closeModals(); showAlert("Pedido enviado com sucesso, logo entregaremos seu pedido!"); }, 1000);
+                } else { throw new Error(); }
+            } catch (err) { showAlert("Erro ao conectar com o servidor. Verifique o console."); }
+            finally { btn.disabled = false; btn.innerHTML = 'FINALIZAR PEDIDO'; }
         }
 
+        function setActive(el) {
+            document.querySelectorAll('.category-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function showAlert(msg) { document.getElementById('alertMsg').innerText = msg; document.getElementById('customAlert').classList.add('active'); }
+        function closeAlert() { document.getElementById('customAlert').classList.remove('active'); }
         function showToast(txt) { const t = document.getElementById('toast'); t.innerText = txt; t.classList.add('active'); setTimeout(()=>t.classList.remove('active'), 2500); }
-        function closeModals() { 
-            document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-            selectedHalf = [];
-            document.querySelectorAll('.half-select-item').forEach(el => el.classList.remove('selected'));
-        }
+        function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
 
-        window.onload = () => { renderMenu(); updateStatus(); };
+        window.onload = renderMenu;
     </script>
 </body>
 </html>
