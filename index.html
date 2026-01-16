@@ -91,6 +91,7 @@
         .size-option, .half-select-item { background: rgba(255,255,255,0.04); padding: 16px; border-radius: 16px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
         .half-select-item.selected { border-color: var(--secondary-color); background: rgba(241,196,15,0.1); }
         .checkout-input { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; color: #fff; border-radius: 14px; margin-bottom: 10px; outline: none; }
+        .checkout-select { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; color: #fff; border-radius: 14px; margin-bottom: 10px; outline: none; appearance: none; }
 
         /* CART BAR */
         .cart-bar { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(150px); width: calc(100% - 30px); max-width: 500px; background: var(--primary-color); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-radius: 22px; z-index: 1000; transition: 0.5s; box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
@@ -143,7 +144,7 @@
     </header>
 
     <section class="info-panel">
-        <div class="info-item"><i class="fas fa-star"></i><span>Aceitamos: Cartão de Crédito, Dinheiro ou Pix!</span></div>
+        <div class="info-item"><i class="fas fa-star"></i><span>Aceitamos: Cartão de Crédito, Dinheiro e Pix!</span></div>
         <div class="info-item"><i class="fas fa-clock"></i><span>Horário: Seg, Qua, Qui (18h-22:30h) | Sex-Dom (18h-23h)</span></div>
         <div class="info-item" style="color: #ff4757; font-weight: 700;"><i class="fas fa-calendar-xmark"></i><span>Não trabalhamos às terças-feiras</span></div>
     </section>
@@ -229,7 +230,7 @@
         </div>
         <div class="copyright">
             <p><b>Dom Jajá - Pizzaria & Choperia</b></p>
-            <p>CODED BY <b>DMT ™</b></p>
+            <p>Desenvolvido por <b>DMT ™</b></p>
             <p>&copy; 2026 - Todos os direitos reservados.</p>
         </div>
     </footer>
@@ -272,8 +273,17 @@
         <div class="modal-content">
             <h2 style="text-align:center; color: var(--secondary-color); margin-bottom:20px; font-weight:800;">RESUMO</h2>
             <div id="review-list" style="margin-bottom: 20px;"></div>
+            
+            <label style="color:#888; font-size:0.8rem; margin-bottom:5px; display:block;">Onde entregar?</label>
+            <select id="delivery-tax" class="checkout-select" onchange="updateCheckoutTotal()">
+                <option value="5">Entrega na Cidade - R$ 5,00</option>
+                <option value="15">Entrega Raízen Energia - R$ 15,00</option>
+            </select>
+
             <input type="text" id="cust-name" class="checkout-input" placeholder="Seu Nome">
             <input type="text" id="cust-addr" class="checkout-input" placeholder="Endereço Completo">
+            <input type="text" id="cust-change" class="checkout-input" placeholder="Precisa de troco? Para quanto?">
+            
             <p style="text-align:center; font-weight:800; font-size:1.4rem; color:var(--accent-color); margin: 20px 0;">Total: <span id="final-total">R$ 0,00</span></p>
             <button id="btnFinalizar" class="checkout-btn-main" style="background:var(--accent-color); color:#fff; width:100%; height: 55px;" onclick="finalizeOrder()">FINALIZAR PEDIDO</button>
             <button class="checkout-btn-main" style="background:transparent; color:#888; width:100%; margin-top:10px;" onclick="closeModals()">VOLTAR</button>
@@ -440,16 +450,21 @@
 
         function openCheckout() {
             const list = document.getElementById('review-list'); list.innerHTML = '';
-            let total = 0;
             cart.forEach((it, idx) => {
-                total += it.price;
                 list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #222;">
                     <div style="font-size:0.85rem;"><p style="font-weight:700;">${it.name}</p><p style="color:#888; font-size:0.7rem;">${it.size}</p></div>
                     <div style="display:flex; align-items:center; gap:12px;"><span>R$ ${it.price.toFixed(2)}</span><i class="fas fa-trash-alt" onclick="removeItem(${idx})" style="color:#ff4757; cursor:pointer;"></i></div>
                 </div>`;
             });
-            document.getElementById('final-total').innerText = `R$ ${total.toFixed(2).replace('.',',')}`;
+            updateCheckoutTotal();
             document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        function updateCheckoutTotal() {
+            let itemsTotal = cart.reduce((t, i) => t + i.price, 0);
+            let tax = parseFloat(document.getElementById('delivery-tax').value);
+            let final = itemsTotal + tax;
+            document.getElementById('final-total').innerText = `R$ ${final.toFixed(2).replace('.',',')}`;
         }
 
         function removeItem(idx) { cart.splice(idx,1); updateCart(); if(cart.length===0) closeModals(); else openCheckout(); }
@@ -457,19 +472,28 @@
         async function finalizeOrder() {
             const name = document.getElementById('cust-name').value;
             const addr = document.getElementById('cust-addr').value;
+            const change = document.getElementById('cust-change').value || "Não informado";
+            const taxSelect = document.getElementById('delivery-tax');
+            const taxValue = parseFloat(taxSelect.value);
+            const taxName = taxSelect.options[taxSelect.selectedIndex].text;
+
             if(!name || !addr) return showAlert("Por favor, informe seu nome e endereço.");
 
             const btn = document.getElementById('btnFinalizar');
             btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENVIANDO...';
 
-            const total = cart.reduce((t, i) => t + i.price, 0);
+            let itemsTotal = cart.reduce((t, i) => t + i.price, 0);
+            const totalFinal = itemsTotal + taxValue;
+
             const dadosPedido = {
                 id: Date.now(),
                 cliente: name,
                 endereco: addr,
+                troco: change,
+                taxa_entrega: taxName,
                 horario: new Date().toLocaleTimeString('pt-BR'),
                 itens: cart.map(i => ({ name: i.name, tamanho: i.size, preco: i.price })),
-                total: total
+                total: totalFinal
             };
 
             try {
@@ -481,11 +505,11 @@
                 if (response.ok) {
                     showToast("PEDIDO ENVIADO!");
                     cart = []; updateCart();
-                    setTimeout(() => { closeModals(); showAlert("Recebemos seu pedido, aguarde o envio. . . Dom Jajá agradece a preferência!"); }, 800);
+                    setTimeout(() => { closeModals(); showAlert("Estamos preparando seu pedido . . . Aguarde a entrega, Obrigado pela preferência!"); }, 800);
                 } else { throw new Error(); }
             } catch (err) { 
                 let itemsStr = cart.map(i => `- ${i.name} (${i.size})`).join('%0A');
-                let zapMsg = `*PEDIDO DOM JAJÁ*%0A%0A*Nome:* ${name}%0A*End:* ${addr}%0A%0A*Itens:*%0A${itemsStr}%0A%0A*Total:* R$ ${total.toFixed(2)}`;
+                let zapMsg = `*PEDIDO DOM JAJÁ*%0A%0A*Nome:* ${name}%0A*End:* ${addr}%0A*Taxa:* ${taxName}%0A*Troco:* ${change}%0A%0A*Itens:*%0A${itemsStr}%0A%0A*Total Geral:* R$ ${totalFinal.toFixed(2)}`;
                 window.open(`https://wa.me/5514997212396?text=${zapMsg}`);
             } finally { btn.disabled = false; btn.innerHTML = 'FINALIZAR PEDIDO'; }
         }
