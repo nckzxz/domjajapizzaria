@@ -45,6 +45,7 @@
         .status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 0.65rem; font-weight: 700; padding: 5px 12px; background: rgba(0,0,0,0.7); border-radius: 50px; border: 1px solid var(--glass-border); color: #fff; backdrop-filter: blur(8px); }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
         .dot.open { background: var(--status-open); box-shadow: 0 0 10px var(--status-open); animation: pulse 2s infinite; }
+        .dot.closed { background: var(--status-closed); box-shadow: 0 0 10px var(--status-closed); }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         /* INFO PANEL */
@@ -75,7 +76,9 @@
         .price-row { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
         .g-price { font-size: 1.25rem; color: var(--accent-color); font-weight: 800; }
         .add-btn { background: var(--primary-color); color: white; border: none; padding: 10px 18px; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 0.75rem; }
+        .add-btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
         .half-btn { background: linear-gradient(135deg, var(--secondary-color), #f39c12); color: #000; border: none; padding: 16px; border-radius: 18px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto 30px; width: 100%; max-width: 400px; font-size: 0.9rem; text-transform: uppercase; }
+        .half-btn:disabled { filter: grayscale(1); cursor: not-allowed; opacity: 0.6; }
 
         /* FOOTER */
         .social-section { padding: 60px 20px 40px; text-align: center; background: linear-gradient(to bottom, transparent, #050505); }
@@ -138,7 +141,7 @@
                 <span style="color:var(--secondary-color); font-weight:700; display:block; margin-bottom:8px; font-size:0.85rem;">
                     <i class="fa-solid fa-pizza-slice yellow-icon"></i> Pizzaria & Choperia
                 </span>
-                <div class="status-badge"><span id="status-dot" class="dot open"></span><span id="status-text">ABERTO</span></div>
+                <div class="status-badge"><span id="status-dot" class="dot"></span><span id="status-text">VERIFICANDO...</span></div>
             </div>
         </div>
     </header>
@@ -172,14 +175,14 @@
                     <div class="item-content">
                         <p class="item-name">Sextou! Super Combo</p>
                         <p class="item-desc"><b>Sabores:</b> 2 Queijos, Calabresa 2, Frango 2 ou Lombo 2.<br><b>Grátis:</b> Refrigerante 2L + Borda de Catupiry ou Cheddar.</p>
-                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 42,99</span><button class="add-btn" onclick="openPromoModal()">ESCOLHER SABOR</button></div>
+                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 42,99</span><button class="add-btn btn-shop" onclick="openPromoModal()">ESCOLHER SABOR</button></div>
                     </div>
                 </div>
                 <div class="item-card" style="border: 2px solid var(--secondary-color);">
                     <div class="item-content">
                         <p class="item-name">COMBO DE ESFIHAS</p>
                         <p class="item-desc">3 Carne, 3 Queijo, 3 Frango c/ Queijo, 3 Milho e 3 Brigadeiro.</p>
-                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 36,99</span><button class="add-btn" onclick="addToCartExtra('Combo 15 Esfihas Promo', 36.99)">ADICIONAR</button></div>
+                        <div class="price-row"><span class="g-price" style="color: var(--secondary-color)">R$ 36,99</span><button class="add-btn btn-shop" onclick="addToCartExtra('Combo 15 Esfihas Promo', 36.99)">ADICIONAR</button></div>
                     </div>
                 </div>
             </div>
@@ -187,7 +190,7 @@
 
         <section class="menu-section" id="salgadas">
             <h2 class="section-title">Pizzas Salgadas</h2>
-            <button class="half-btn" onclick="openHalfModal()"><i class="fas fa-wand-magic-sparkles"></i> Montar Meio a Meio (G)</button>
+            <button class="half-btn btn-shop" onclick="openHalfModal()"><i class="fas fa-wand-magic-sparkles"></i> Montar Meio a Meio (G)</button>
             <div class="grid-container" id="grid-salgadas"></div>
         </section>
 
@@ -199,8 +202,8 @@
         <section class="menu-section" id="porcoes-gerais">
             <h2 class="section-title">Porções</h2>
             <div class="grid-container">
-                <div class="item-card"><div class="item-content"><p class="item-name">Batata Completa</p><p class="item-desc">Batata frita com cheddar e bacon.</p><div class="price-row"><span class="g-price">R$ 50,00</span><button class="add-btn" onclick="addToCartExtra('Batata Completa', 50)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Calabresa Acebolada</p><p class="item-desc">Porção de calabresa frita com cebola.</p><div class="price-row"><span class="g-price">R$ 45,00</span><button class="add-btn" onclick="addToCartExtra('Calabresa Acebolada', 45)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Batata Completa</p><p class="item-desc">Batata frita com cheddar e bacon.</p><div class="price-row"><span class="g-price">R$ 50,00</span><button class="add-btn btn-shop" onclick="addToCartExtra('Batata Completa', 50)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Calabresa Acebolada</p><p class="item-desc">Porção de calabresa frita com cebola.</p><div class="price-row"><span class="g-price">R$ 45,00</span><button class="add-btn btn-shop" onclick="addToCartExtra('Calabresa Acebolada', 45)">ADICIONAR</button></div></div></div>
             </div>
         </section>
 
@@ -212,10 +215,10 @@
         <section class="menu-section" id="bebidas">
             <h2 class="section-title">Bebidas</h2>
             <div class="grid-container">
-                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Gelada e refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Coca-Cola 2L', 15)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Guaraná 2L</p><p class="item-desc">Original Antarctica.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Guaraná 2L', 15)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor vibrante de laranja.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
-                <div class="item-card"><div class="item-content"><p class="item-name">Sprite 2L</p><p class="item-desc">Limão refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn" onclick="addToCartExtra('Sprite 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Coca-Cola 2L</p><p class="item-desc">Gelada e refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn btn-shop" onclick="addToCartExtra('Coca-Cola 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Guaraná 2L</p><p class="item-desc">Original Antarctica.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn btn-shop" onclick="addToCartExtra('Guaraná 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Fanta Laranja 2L</p><p class="item-desc">Sabor vibrante de laranja.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn btn-shop" onclick="addToCartExtra('Fanta Laranja 2L', 15)">ADICIONAR</button></div></div></div>
+                <div class="item-card"><div class="item-content"><p class="item-name">Sprite 2L</p><p class="item-desc">Limão refrescante.</p><div class="price-row"><span class="g-price">R$ 15,00</span><button class="add-btn btn-shop" onclick="addToCartExtra('Sprite 2L', 15)">ADICIONAR</button></div></div></div>
             </div>
         </section>
     </main>
@@ -374,6 +377,42 @@
         let cart = [];
         let selectedHalf = [];
 
+        function checkStatus() {
+            const now = new Date();
+            const day = now.getDay(); // 0: Dom, 1: Seg, 2: Ter...
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTime = hours + minutes / 60;
+
+            let isOpen = false;
+
+            if (day === 2) { // Terça-feira
+                isOpen = false;
+            } else if (day === 1 || day === 3 || day === 4) { // Seg, Qua, Qui
+                isOpen = currentTime >= 18 && currentTime < 22.5;
+            } else { // Sex, Sab, Dom
+                isOpen = currentTime >= 18 && currentTime < 23;
+            }
+
+            const dot = document.getElementById('status-dot');
+            const text = document.getElementById('status-text');
+            const shopBtns = document.querySelectorAll('.btn-shop');
+
+            if (isOpen) {
+                dot.className = 'dot open';
+                text.innerText = 'ABERTO';
+                shopBtns.forEach(btn => btn.disabled = false);
+            } else {
+                dot.className = 'dot closed';
+                text.innerText = 'FECHADO';
+                shopBtns.forEach(btn => {
+                    btn.disabled = true;
+                    btn.innerText = 'FECHADO';
+                });
+            }
+            return isOpen;
+        }
+
         function renderMenu() {
             const grids = { 
                 salgada: document.getElementById('grid-salgadas'), 
@@ -382,10 +421,14 @@
             };
             for (let id in productsData) {
                 const p = productsData[id];
-                const html = `<div class="item-card"><div class="item-content"><p class="item-name">${id}. ${p.name}</p><p class="item-desc">${p.desc}</p><div class="price-row"><span class="g-price">R$ ${p.g.toFixed(2)}</span><button class="add-btn" onclick="openSizeModal('${id}')">ADICIONAR</button></div></div></div>`;
+                const html = `<div class="item-card"><div class="item-content"><p class="item-name">${id}. ${p.name}</p><p class="item-desc">${p.desc}</p><div class="price-row"><span class="g-price">R$ ${p.g.toFixed(2)}</span><button class="add-btn btn-shop" onclick="openSizeModal('${id}')">ADICIONAR</button></div></div></div>`;
                 if(grids[p.cat]) grids[p.cat].innerHTML += html;
             }
-            setTimeout(() => { document.getElementById('welcomeInfo').classList.add('active'); }, 600);
+            
+            const isOpen = checkStatus();
+            if(isOpen) {
+                setTimeout(() => { document.getElementById('welcomeInfo').classList.add('active'); }, 600);
+            }
         }
 
         function closeWelcome() {
@@ -525,6 +568,7 @@
         function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); }
 
         window.onload = renderMenu;
+        setInterval(checkStatus, 30000); // Verifica o status a cada 30 segundos
     </script>
 </body>
 </html>
